@@ -16,6 +16,11 @@ public class Player_Input : MonoBehaviour
     [HideInInspector] public bool jumpPressed;
     [HideInInspector] public bool jumpReleased;
 
+    [Header("Shoot")]
+    public bool shoot;
+    [HideInInspector] public bool shootPressed;
+    [HideInInspector] public bool shootReleased;
+
     [Header("Mouse Cursor Settings")]
     public bool cursorInputForLook = true;
 
@@ -47,6 +52,24 @@ public class Player_Input : MonoBehaviour
         jump = pressed;
     }
 
+    public void OnShoot(InputValue value)
+    {
+        bool pressed = value.isPressed;
+
+        if (pressed && !shoot)
+        {
+            shootPressed = true;
+        }
+
+        if (!pressed && shoot)
+        {
+            shootReleased = true;
+        }
+
+        shoot = pressed;
+    }
+
+
     public void OnLook(InputValue value)
     {
         if (cursorInputForLook)
@@ -66,6 +89,11 @@ public class Player_Input : MonoBehaviour
         look = newLookDirection;
     }
 
+    public void ShootInput(bool newShootState)
+    {
+        shoot = newShootState;
+    }
+
     public void JumpInput(bool newJumpState)
     {
         jump = newJumpState;
@@ -75,5 +103,7 @@ public class Player_Input : MonoBehaviour
     {
         jumpPressed = false;
         jumpReleased = false;
+        shootPressed = false;
+        shootReleased = false;
     }
 }

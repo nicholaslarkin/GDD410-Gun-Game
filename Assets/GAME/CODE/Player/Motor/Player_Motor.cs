@@ -9,6 +9,8 @@ public class Player_Motor : MonoBehaviour
     public Player_Input input;
     public Transform playerCamera;
 
+    public Weapon weapon;
+
     [Header("Movement")]
     public float moveSpeed;
     public float acceleration;
@@ -42,8 +44,13 @@ public class Player_Motor : MonoBehaviour
 
     private void Update()
     {
+        //Needs to be in update for weapon swapping; change later if performance hit
+        weapon = GetComponentInChildren<Weapon>();
+
         //handling camera in Update since mouse movement is frame-based
         Look();
+
+        Shooting();
     }
 
 
@@ -117,6 +124,18 @@ public class Player_Motor : MonoBehaviour
 
         velocity.x = currentHorizontalVelocity.x;
         velocity.z = currentHorizontalVelocity.z;
+    }
+
+    #endregion
+
+    #region SHOOTING
+
+    private void Shooting()
+    {
+        if (input.shootPressed)
+        {
+            weapon.ShootGun();
+        }
     }
 
     #endregion
