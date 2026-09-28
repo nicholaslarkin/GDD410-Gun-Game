@@ -1,28 +1,40 @@
+using UnityEditor;
 using UnityEngine;
+
+public enum WeaponItem
+{
+    Knife = 1,
+    Pistol = 2,
+    Shotgun = 3,
+}
+public enum WeaponTypes
+{
+    Melee = 0,
+    Non_Automatic = 1,
+    Burst = 2,
+}
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private float shootDistance;
-    [SerializeField] private LayerMask hurtbox;
+    public WeaponData weaponData;
 
-    private void Awake()
+    public WeaponTypes weaponType;
+    public GameObject weaponModel;
+    public int ammoClip;
+    public int ammoReserve;
+
+    protected virtual void Awake()
     {
-        hurtbox = LayerMask.GetMask("Hurtbox");
+        if (weaponData == null)
+            return;
+
+        weaponType = weaponData.weaponType;
+        ammoClip = weaponData.ammoClip;
+        ammoReserve = weaponData.ammoReserve;
     }
 
-    public void ShootGun()
+    public virtual void ShootGun()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, shootDistance, hurtbox))
-
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
-            Debug.Log("Shot a Target!");
-        }
-        else
-        {
-            Debug.Log("No Target hit!");
-        }
+        ammoClip--;
     }
 }

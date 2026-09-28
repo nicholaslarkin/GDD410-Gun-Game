@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ea71f51f801d44f83218f697481a84, type: 3}
+  m_Name: Knife
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeData
+  weaponType: 0
+  weaponModel: {fileID: 1329033124911254211, guid: a14018049922e78409fb2340fa653a02, type: 3}
+  ammoClip: 999
+  ammoReserve: 999

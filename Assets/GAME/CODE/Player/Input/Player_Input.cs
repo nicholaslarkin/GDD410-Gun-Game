@@ -21,6 +21,17 @@ public class Player_Input : MonoBehaviour
     [HideInInspector] public bool shootPressed;
     [HideInInspector] public bool shootReleased;
 
+    [Header("Interact")]
+    public bool interact;
+    [HideInInspector] public bool interactPressed;
+    [HideInInspector] public bool interactReleased;
+
+    [Header("WeaponSwap")]
+    public bool weaponSwap;
+    public int weaponSwapValue;
+    [HideInInspector] public bool weaponSwapPressed;
+    [HideInInspector] public bool weaponSwapReleased;
+
     [Header("Mouse Cursor Settings")]
     public bool cursorInputForLook = true;
 
@@ -69,6 +80,57 @@ public class Player_Input : MonoBehaviour
         shoot = pressed;
     }
 
+    public void OnInteract(InputValue value)
+    {
+        bool pressed = value.isPressed;
+
+        if (pressed && !interact)
+        {
+            interactPressed = true;
+        }
+
+        if (!pressed && interact)
+        {
+            interactReleased = true;
+        }
+
+        interact = pressed;
+    }
+
+    public void OnWeapon1(InputValue value)
+    {
+        if (value.isPressed)
+            weaponSwapValue = 1;
+    }
+
+    public void OnWeapon2(InputValue value)
+    {
+        if (value.isPressed)
+            weaponSwapValue = 2;
+    }
+
+    public void OnWeapon3(InputValue value)
+    {
+        if (value.isPressed)
+            weaponSwapValue = 3;
+    }
+
+    public void OnWeaponSwap(InputValue value) 
+    { 
+        bool pressed = value.isPressed; 
+        
+        if (pressed && !weaponSwap) 
+        { 
+            weaponSwapPressed = true; 
+        } 
+        
+        if (!pressed && weaponSwap) 
+        { 
+            weaponSwapReleased = true; 
+        } 
+        
+        weaponSwap = pressed; 
+    }
 
     public void OnLook(InputValue value)
     {
@@ -94,6 +156,16 @@ public class Player_Input : MonoBehaviour
         shoot = newShootState;
     }
 
+    public void InteractInput(bool newInteractState)
+    {
+        interact = newInteractState;
+    }
+
+    public void WeaponSwapInput(bool newWeaponSwapState)
+    {
+        weaponSwap = newWeaponSwapState;
+    }
+
     public void JumpInput(bool newJumpState)
     {
         jump = newJumpState;
@@ -105,5 +177,9 @@ public class Player_Input : MonoBehaviour
         jumpReleased = false;
         shootPressed = false;
         shootReleased = false;
+        interactPressed = false;
+        interactReleased = false;
+        weaponSwapPressed = false;
+        weaponSwapReleased = false;
     }
 }

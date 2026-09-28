@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1009be1d89fef6489243b3659b1bddf, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: Assembly-CSharp::NonAutomatic
+  weaponType: 1
+  weaponModel: {fileID: 1721155872509631726, guid: b61c92b95b858ce49b6f361c2631d948, type: 3}
+  ammoClip: 8
+  ammoReserve: 160

@@ -6,10 +6,11 @@ public class Player_Motor : MonoBehaviour
 
     [Header("Components")]
     public Rigidbody rb;
+    public GameObject raycastPointer;
     public Player_Input input;
     public Transform playerCamera;
-
     public Weapon weapon;
+    public Player_Weapon weaponSwap;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -39,6 +40,8 @@ public class Player_Motor : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         input = GetComponent<Player_Input>();
+        raycastPointer = GameObject.Find("RaycastPointer");
+        weaponSwap = GetComponent<Player_Weapon>();
     }
 
 
@@ -50,6 +53,8 @@ public class Player_Motor : MonoBehaviour
         //handling camera in Update since mouse movement is frame-based
         Look();
 
+        WeaponSwap();
+        Interact();
         Shooting();
     }
 
@@ -129,7 +134,6 @@ public class Player_Motor : MonoBehaviour
     #endregion
 
     #region SHOOTING
-
     private void Shooting()
     {
         if (input.shootPressed)
@@ -137,7 +141,41 @@ public class Player_Motor : MonoBehaviour
             weapon.ShootGun();
         }
     }
+    #endregion
 
+    #region INTERACT
+    private void Interact()
+    {
+        // Refactor and merge this functionality with Shooting as well later
+
+        if (input.interactPressed)
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward), out hit, 1f))
+            {
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                interactable?.PickupItem();
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green, 3f);
+                Debug.Log("Pick up Item!");
+            }
+            else
+            {
+                Debug.DrawRay(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward) * hit.distance, Color.red, 3f);
+                Debug.Log("No Item to pick up!");
+            }
+        }
+    }
+    #endregion
+
+    #region WEAPON TOGGLE
+    private void WeaponSwap()
+    {
+        if (input.weaponSwapPressed)
+        {
+            weaponSwap.WeaponSwitching(input.weaponSwapValue);
+        }
+    }
     #endregion
 
 
