@@ -33,8 +33,8 @@ public class Weapon : MonoBehaviour
         ammoReserve = weaponData.ammoReserve;
     }
 
-    public virtual void ShootGun()
+    /*public virtual void ShootGun()
     {
         ammoClip--;
-    }
+    }*/
 }

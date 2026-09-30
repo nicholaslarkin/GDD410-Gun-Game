@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player_Weapon : MonoBehaviour
 {
+    public Player_Stats stats;
+    public UIManager uiManager;
     public Transform weaponSlot;
     public GameObject currentWeapon;
 
@@ -11,8 +13,11 @@ public class Player_Weapon : MonoBehaviour
     private void Awake()
     {
         Debug.Log(weapons.Count);
+    }
 
-        WeaponSwap(1);
+    private void Start()
+    {
+        WeaponSwap(3);
     }
 
     public void WeaponSwitching(int weaponValue)
@@ -42,7 +47,14 @@ public class Player_Weapon : MonoBehaviour
         {
             Destroy(currentWeapon);
         }
+
+        WeaponData weaponData = weapons[weaponValue - 1];
+
         currentWeapon = Instantiate(weapons[weaponValue - 1].weaponModel, weaponSlot);
+
+        stats.ChangeWeaponPrefab(weaponData);
+        uiManager.UpdateUIInfo();
+        //uiManager.UpdateAmmoClip();
 
         Debug.Log("Switched to " + weapons[weaponValue - 1].name);
     }

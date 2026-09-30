@@ -978,7 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   playerStats: {fileID: 626034039}
-  weaponSlot: {fileID: 1483664123}
+  weaponSlot: {fileID: 0}
   hpText: {fileID: 190094775}
   ammoReserveText: {fileID: 207378706}
   ammoClipImage: {fileID: 8119439015907772587, guid: e2c50b1055cc0364598bec34d7f24cf0, type: 3}
@@ -1300,6 +1300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1af8453f7cef94ab8a02a084c5e0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Weapon
+  stats: {fileID: 626034039}
+  uiManager: {fileID: 310514941}
   weaponSlot: {fileID: 1483664122}
   currentWeapon: {fileID: 3495387772268900200}
   weapons:
@@ -1319,7 +1321,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Stats
   playerData: {fileID: 11400000, guid: 350f928cc1581ad488940ed50ec1bf99, type: 2}
-  currentWeapon: {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
+  currentWeapon: {fileID: 0}
+  weapon: {fileID: 626034033}
   hp: 0
   ammoCount: 0
   ammoReserve: 0
@@ -1917,19 +1920,31 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 200427154}
+    m_TransformParent: {fileID: 1483664122}
     m_Modifications:
+    - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.38
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.655
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1937,15 +1952,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2293,9 +2308,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5499938246670396948, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1483664122}
-    - targetCorrespondingSourceObject: {fileID: 5499938246670396948, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8442857877424728165}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1680805652097327138, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       insertIndex: 2
@@ -2368,7 +2380,10 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5272431688721221883, guid: 33172585755a8b64dbf4c7b2cacce5b0, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8442857876406063890, guid: 33172585755a8b64dbf4c7b2cacce5b0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8442857877424728165}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3495387771141116959, guid: 33172585755a8b64dbf4c7b2cacce5b0, type: 3}
       insertIndex: -1

@@ -11,10 +11,8 @@ public class NonAutomatic : Weapon
         hurtbox = LayerMask.GetMask("Hurtbox");
     }
 
-    public override void ShootGun()
-    {
-        base.ShootGun();
-
+    public void ShootGun()
+    {      
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, hurtbox))

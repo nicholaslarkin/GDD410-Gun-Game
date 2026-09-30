@@ -11,7 +11,7 @@ public class Melee : Weapon
         hurtbox = LayerMask.GetMask("Hurtbox");
     }
 
-    public override void ShootGun()
+    public void ShootGun()
     {
         RaycastHit hit;
 

@@ -9,7 +9,7 @@ public class Player_Motor : MonoBehaviour
     public GameObject raycastPointer;
     public Player_Input input;
     public Transform playerCamera;
-    public Weapon weapon;
+    public Player_Stats weapon; //changed from Weapon for testing
     public Player_Weapon weaponSwap;
 
     [Header("Movement")]
@@ -48,7 +48,7 @@ public class Player_Motor : MonoBehaviour
     private void Update()
     {
         //Needs to be in update for weapon swapping; change later if performance hit
-        weapon = GetComponentInChildren<Weapon>();
+        weapon = GetComponentInChildren<Player_Stats>();
 
         //handling camera in Update since mouse movement is frame-based
         Look();

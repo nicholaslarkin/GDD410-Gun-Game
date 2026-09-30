@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 public class UIManager : MonoBehaviour
 {
     public Player_Stats playerStats;
@@ -16,25 +17,36 @@ public class UIManager : MonoBehaviour
     public int ammoCount;
     public int ammoReserve;
 
-    private void Awake()
+    private void Update()
     {
-        hp = playerStats.hp;
-        ammoCount = weaponSlot.ammoClip;
-        ammoReserve = weaponSlot.ammoReserve;
+        UpdateUIInfo();
+        //UpdateAmmoClip();
+    }
 
+    public void UpdateUIInfo()
+    {
+        GameObject weaponObject = GameObject.Find("WeaponSlot");
+
+        if (weaponObject != null)
+        {
+            weaponSlot = weaponObject.GetComponent<Weapon>();
+        }
+
+        hp = playerStats.hp;
+        ammoCount = playerStats.ammoCount;
+        ammoReserve = playerStats.ammoReserve;
+
+        hpText.text = hp.ToString();
+        ammoReserveText.text = ammoReserve.ToString();
+    }
+
+    /*public void UpdateAmmoClip()
+    {
         for (int i = 0; i <= ammoCount; i++)
         {
             ammoClipImage = Instantiate(ammoClipImage, ammoClipPos);
         }
 
         Destroy(ammoClipImage);
-    }
-
-    private void Update()
-    {
-        weaponSlot = GetComponentInChildren<Weapon>();
-
-        hpText.text = hp.ToString();
-        ammoReserveText.text = ammoReserve.ToString();
-    }
+    }*/
 }
