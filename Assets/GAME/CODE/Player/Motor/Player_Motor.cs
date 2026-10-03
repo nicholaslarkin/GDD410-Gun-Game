@@ -7,9 +7,10 @@ public class Player_Motor : MonoBehaviour
     [Header("Components")]
     public Rigidbody rb;
     public GameObject raycastPointer;
+    public LayerMask hurtbox;
     public Player_Input input;
     public Transform playerCamera;
-    public Player_Stats weapon; //changed from Weapon for testing
+    public Player_Statistics playerStats; //changed from Weapon for testing
     public Player_Weapon weaponSwap;
 
     [Header("Movement")]
@@ -48,13 +49,14 @@ public class Player_Motor : MonoBehaviour
     private void Update()
     {
         //Needs to be in update for weapon swapping; change later if performance hit
-        weapon = GetComponentInChildren<Player_Stats>();
+        playerStats = GetComponentInChildren<Player_Statistics>();
 
         //handling camera in Update since mouse movement is frame-based
         Look();
 
         WeaponSwap();
         Interact();
+        Reloading();
         Shooting();
     }
 
@@ -136,9 +138,30 @@ public class Player_Motor : MonoBehaviour
     #region SHOOTING
     private void Shooting()
     {
-        if (input.shootPressed)
+        if (input.shootPressed && playerStats.ammoCount > 0)
         {
-            weapon.ShootGun();
+            RaycastHit hit;
+
+            if (Physics.Raycast(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, hurtbox))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green, 3f);
+                playerStats.Shot(true, hit);
+                Debug.Log("Shot something! Running Shot function with true");
+            }
+            else
+            {
+                Debug.DrawRay(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward) * hit.distance, Color.red, 3f);
+                playerStats.Shot(false, default);
+                Debug.Log("Nothing w/ Hurtbox was shot! Running Shot function with false");
+            }
+        }
+    }
+
+    private void Reloading()
+    {
+        if (input.reloadPressed)
+        {
+            playerStats.Reload();
         }
     }
     #endregion

@@ -1,11 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DefaultExecutionOrder(1)]
 public class UIManager : MonoBehaviour
 {
-    public Player_Stats playerStats;
+    public Player_Statistics playerStats;
     public Weapon weaponSlot;
+
+    public RawImage weaponImage;
 
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI ammoReserveText;
@@ -13,18 +16,31 @@ public class UIManager : MonoBehaviour
     public GameObject ammoClipImage;
     public Transform ammoClipPos;
 
-    public int hp;
-    public int ammoCount;
     public int ammoReserve;
 
-    private void Update()
+    private void Start()
     {
-        UpdateUIInfo();
-        //UpdateAmmoClip();
+        int currentHp = playerStats.currentHealth;
+        int ammoClipAmount = playerStats.ammoCount;
+
+        UpdateWeaponUI(ammoClipAmount);
+        UpdateHealthUI(currentHp);
     }
 
-    public void UpdateUIInfo()
+    public void UpdateWeaponUI(int ammoClipAmount)
     {
+        Debug.Log("Updating UI");
+
+        foreach (Transform child in ammoClipPos)
+        {
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < ammoClipAmount; i++)
+        {
+            Instantiate(ammoClipImage, ammoClipPos);
+        }
+
         GameObject weaponObject = GameObject.Find("WeaponSlot");
 
         if (weaponObject != null)
@@ -32,21 +48,14 @@ public class UIManager : MonoBehaviour
             weaponSlot = weaponObject.GetComponent<Weapon>();
         }
 
-        hp = playerStats.hp;
-        ammoCount = playerStats.ammoCount;
-        ammoReserve = playerStats.ammoReserve;
-
-        hpText.text = hp.ToString();
-        ammoReserveText.text = ammoReserve.ToString();
+        weaponImage.texture = playerStats.currentWeapon.weaponImage;
+        ammoReserveText.text = playerStats.ammoReserve.ToString();
     }
 
-    /*public void UpdateAmmoClip()
+    public void UpdateHealthUI(int currentHealth)
     {
-        for (int i = 0; i <= ammoCount; i++)
-        {
-            ammoClipImage = Instantiate(ammoClipImage, ammoClipPos);
-        }
+        Debug.Log("Updated Health");
 
-        Destroy(ammoClipImage);
-    }*/
+        hpText.text = currentHealth.ToString();
+    }
 }
