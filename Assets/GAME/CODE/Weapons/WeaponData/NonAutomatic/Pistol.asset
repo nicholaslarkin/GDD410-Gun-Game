@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::NonAutomatic
   weaponType: 1
+  weaponImage: {fileID: 2800000, guid: b41e2c684c91bfe4fa62c6e337d03dc3, type: 3}
   weaponModel: {fileID: 1721155872509631726, guid: b61c92b95b858ce49b6f361c2631d948, type: 3}
   ammoClip: 8
   ammoReserve: 160
+  damage: 13

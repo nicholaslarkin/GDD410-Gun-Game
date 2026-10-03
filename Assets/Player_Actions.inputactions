@@ -47,6 +47,16 @@
                     "priority": 0
                 },
                 {
+                    "name": "Reload",
+                    "type": "PassThrough",
+                    "id": "93b6b651-583f-4503-9778-ac80710a4db3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
                     "name": "Interact",
                     "type": "PassThrough",
                     "id": "f6a9c294-bfa8-43ee-a9e7-3c0051977ecb",
@@ -249,6 +259,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Weapon1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03373c89-7cc8-4aca-8bb4-f3d5e0dcbf24",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

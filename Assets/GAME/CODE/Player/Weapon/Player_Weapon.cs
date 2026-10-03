@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Player_Weapon : MonoBehaviour
 {
-    public Player_Stats stats;
+    public Player_Statistics stats;
     public UIManager uiManager;
     public Transform weaponSlot;
     public GameObject currentWeapon;
@@ -53,8 +53,7 @@ public class Player_Weapon : MonoBehaviour
         currentWeapon = Instantiate(weapons[weaponValue - 1].weaponModel, weaponSlot);
 
         stats.ChangeWeaponPrefab(weaponData);
-        uiManager.UpdateUIInfo();
-        //uiManager.UpdateAmmoClip();
+        uiManager.UpdateWeaponUI(weaponData.ammoClip);
 
         Debug.Log("Switched to " + weapons[weaponValue - 1].name);
     }

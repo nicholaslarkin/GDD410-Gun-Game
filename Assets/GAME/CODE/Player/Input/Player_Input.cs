@@ -21,6 +21,11 @@ public class Player_Input : MonoBehaviour
     [HideInInspector] public bool shootPressed;
     [HideInInspector] public bool shootReleased;
 
+    [Header("Reload")]
+    public bool reload;
+    [HideInInspector] public bool reloadPressed;
+    [HideInInspector] public bool reloadReleased;
+
     [Header("Interact")]
     public bool interact;
     [HideInInspector] public bool interactPressed;
@@ -78,6 +83,23 @@ public class Player_Input : MonoBehaviour
         }
 
         shoot = pressed;
+    }
+
+    public void OnReload(InputValue value)
+    {
+        bool pressed = value.isPressed;
+
+        if (pressed && !reload)
+        {
+            reloadPressed = true;
+        }
+
+        if (!pressed && reload)
+        {
+            reloadReleased = true;
+        }
+
+        reload = pressed;
     }
 
     public void OnInteract(InputValue value)
@@ -156,6 +178,11 @@ public class Player_Input : MonoBehaviour
         shoot = newShootState;
     }
 
+    public void ReloadInput(bool newReloadState)
+    {
+        shoot = newReloadState;
+    }
+
     public void InteractInput(bool newInteractState)
     {
         interact = newInteractState;
@@ -177,6 +204,8 @@ public class Player_Input : MonoBehaviour
         jumpReleased = false;
         shootPressed = false;
         shootReleased = false;
+        reloadPressed = false;
+        reloadReleased = false;
         interactPressed = false;
         interactReleased = false;
         weaponSwapPressed = false;

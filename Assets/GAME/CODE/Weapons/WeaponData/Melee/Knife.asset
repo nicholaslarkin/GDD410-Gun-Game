@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: Assembly-CSharp::MeleeData
   weaponType: 0
+  weaponImage: {fileID: 2800000, guid: 65b809321deaeb340bcd066c3d97d61b, type: 3}
   weaponModel: {fileID: 1329033124911254211, guid: a14018049922e78409fb2340fa653a02, type: 3}
-  ammoClip: 999
-  ammoReserve: 999
+  ammoClip: 0
+  ammoReserve: 0
+  damage: 100
