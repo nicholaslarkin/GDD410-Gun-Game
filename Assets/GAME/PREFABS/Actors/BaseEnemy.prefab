@@ -418,7 +418,8 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   bulletFirePoint: {fileID: 7095718415553149195}
   bulletObj: {fileID: 4606249640823872807, guid: 5635954fe18bcda41b68163e7f8ad5c3, type: 3}
-  fireRate: 1
+  fireRateMin: 0.5
+  fireRateMax: 1
   aggroDistance: 20
 --- !u!114 &1091673631165769236
 MonoBehaviour:

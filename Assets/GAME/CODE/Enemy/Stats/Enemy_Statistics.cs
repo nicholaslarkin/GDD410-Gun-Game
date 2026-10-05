@@ -14,8 +14,10 @@ public class Enemy_Statistics : ActorStatistics
     [SerializeField] private Transform playerPos;
     [SerializeField] private Transform bulletFirePoint;
     [SerializeField] private GameObject bulletObj;
-    [SerializeField] private float fireRate;
+    [SerializeField] private float fireRateMin;
+    [SerializeField] private float fireRateMax;
     [SerializeField] private float aggroDistance = 20f;
+    private float fireRate;
     private float timeLeftToFire;
 
     private void Start()
@@ -47,6 +49,8 @@ public class Enemy_Statistics : ActorStatistics
 
     private void FixedUpdate()
     {
+        fireRate = Random.Range(fireRateMin, fireRateMax);
+
         if (_playerSpotted)
             timeLeftToFire += Time.deltaTime;
         else

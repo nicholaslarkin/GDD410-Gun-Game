@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [DefaultExecutionOrder(0)]
@@ -31,7 +32,26 @@ public class Player_Statistics : ActorStatistics
 
         if (hurtboxDetected)
         {
-            hit.collider.GetComponentInParent<ActorStatistics>().TakeDamage(currentWeapon.damage);
+            float distance = hit.distance;
+            float maxDistance = currentWeapon.maxRange;
+            float exponent = 2f;
+
+            float distancePercent = Mathf.Clamp01(distance / maxDistance);
+            float falloff = Mathf.Pow(distancePercent, exponent);
+
+            int damageCalc = Mathf.RoundToInt(
+                Mathf.Lerp(currentWeapon.maxDamage, currentWeapon.minDamage, falloff));
+
+            if (damageCalc <= 0)
+            {
+                Debug.Log("Damage too low! Counted as a miss!");
+                return;
+            }
+            else
+            {
+                Debug.Log(damageCalc + " damage done when at a distance of " + hit.distance + " from target!");
+                hit.collider.GetComponentInParent<ActorStatistics>().TakeDamage(damageCalc);
+            }
         }
 
         UIManager uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
