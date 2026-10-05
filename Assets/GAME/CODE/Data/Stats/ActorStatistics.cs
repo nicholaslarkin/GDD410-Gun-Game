@@ -20,7 +20,7 @@ public class ActorStatistics : MonoBehaviour
         maxHealth = actorData.maxHealth;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (currentHealth <= 0)
             Death();
@@ -32,7 +32,7 @@ public class ActorStatistics : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int amount) //Positive number for damage, negative number for healing
+    public virtual void TakeDamage(int amount) //Positive number for damage, negative number for healing
     {
         Debug.Log("TakeDamage Ran!");
 

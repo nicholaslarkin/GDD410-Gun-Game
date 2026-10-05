@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 9189857953654805624}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,10 +83,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Statistics
   actorData: {fileID: 11400000, guid: 0ef5f99cf0f778143b90aaa72ec8b30e, type: 2}
-  playerData: {fileID: 11400000, guid: 350f928cc1581ad488940ed50ec1bf99, type: 2}
   currentWeapon: {fileID: 0}
   weapon: {fileID: 1134490294335787678}
-  hp: 0
   ammoCount: 0
   ammoReserve: 0
 --- !u!114 &1134490294335787678
@@ -123,9 +121,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player_Motor
   rb: {fileID: 9189857953654805624}
   raycastPointer: {fileID: 0}
+  hurtbox:
+    serializedVersion: 2
+    m_Bits: 128
   input: {fileID: 0}
   playerCamera: {fileID: 5499938246670396948}
-  weapon: {fileID: 0}
+  playerStats: {fileID: 0}
   weaponSwap: {fileID: 0}
   moveSpeed: 10
   acceleration: 200
@@ -158,6 +159,9 @@ MonoBehaviour:
   shoot: 0
   shootPressed: 0
   shootReleased: 0
+  reload: 0
+  reloadPressed: 0
+  reloadReleased: 0
   interact: 0
   interactPressed: 0
   interactReleased: 0
@@ -321,7 +325,7 @@ GameObject:
   - component: {fileID: 2651872364646413442}
   m_Layer: 0
   m_Name: Hurtbox
-  m_TagString: Hurtbox
+  m_TagString: PlayerHurtbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -478,7 +482,7 @@ Transform:
   m_GameObject: {fileID: 8136763222101481902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0.852}
   m_LocalScale: {x: 0.25754, y: 0.25754, z: 0.25754}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -4,9 +4,9 @@ public class Hitbox : MonoBehaviour
 {
     [SerializeField] private int damageValue;
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Hurtbox"))
+        if (other.gameObject.CompareTag("PlayerHurtbox"))
         {
             Debug.Log("Hitbox has found a Hurtbox!");
 

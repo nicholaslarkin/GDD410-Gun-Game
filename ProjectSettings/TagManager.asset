@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Hurtbox
+  - PlayerHurtbox
+  - Wall
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - UI
   - Grounded
   - Hurtbox
-  - 
+  - Wall
   - 
   - 
   - 
