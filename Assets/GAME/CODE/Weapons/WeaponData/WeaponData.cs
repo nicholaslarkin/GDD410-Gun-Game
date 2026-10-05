@@ -12,5 +12,8 @@ public class WeaponData : ScriptableObject
     public int ammoClip;
     public int ammoReserve;
 
-    public int damage;
+    public int minDamage;
+    public int maxDamage;
+
+    public float maxRange = 24f;
 }

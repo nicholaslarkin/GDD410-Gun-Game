@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class Bullet : Hitbox
@@ -6,12 +7,15 @@ public class Bullet : Hitbox
     private Vector3 targetDirection;
 
     public float bulletLifetime = 3f;
-    public float bulletSpeed = 10f;
+    public float bulletMinSpeed = 10f;
+    public float bulletMaxSpeed = 25f;
+    private float bulletSpeed;
     private float bulletTimer;
 
     private void Awake()
     {
         target = GameObject.Find("Player").GetComponent<Transform>();
+        bulletSpeed = Random.Range(bulletMinSpeed, bulletMaxSpeed);
     }
 
     private void Update()
@@ -40,7 +44,7 @@ public class Bullet : Hitbox
             Destroy(gameObject);
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("Wall") 
+        if (other.gameObject.layer == LayerMask.NameToLayer("Wall")
             || other.gameObject.layer == LayerMask.NameToLayer("Grounded"))
         {
             Destroy(gameObject);
