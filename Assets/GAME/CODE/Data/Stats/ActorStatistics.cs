@@ -48,7 +48,7 @@ public class ActorStatistics : MonoBehaviour
         }
     }
 
-    void Death()
+    public virtual void Death()
     {
         Destroy(gameObject);
     }
