@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(0)]
 public class Player_Statistics : ActorStatistics
@@ -85,7 +86,7 @@ public class Player_Statistics : ActorStatistics
             case 2:
                 ammoReserve += quantityAmount;
                 uiManager.UpdateWeaponUI(ammoCount);
-            break;
+                break;
             //Misc
             case 3:
                 Debug.Log("idk what to do with this misc pickup yet LOL");
@@ -101,5 +102,11 @@ public class Player_Statistics : ActorStatistics
 
         ammoCount = currentWeapon.ammoClip;
         ammoReserve = currentWeapon.ammoReserve;
+    }
+
+    public override void Death()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene("PrototypeMenu");
     }
 }
