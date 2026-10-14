@@ -18,6 +18,16 @@ public class Player_Motor : MonoBehaviour
     public float acceleration;
     public float deceleration;
 
+    [Header("Jump")]
+    public float jumpForce;
+    public float chargeJumpForce;
+
+    public float currentCoyoteTime;
+    public float maxCoyoteTime;
+
+    public int currentJumpCount;
+    public int maxJumpCount;
+
     [Header("Mouse Look")]
     public float mouseSensitivity;
     public float cameraPitchLimit;
@@ -26,6 +36,16 @@ public class Player_Motor : MonoBehaviour
     public bool useGravity = true;
     public float gravity;
     public float terminalVelocity;
+    public float fallForce;
+
+    [Header("Grounded")]
+    public bool wasGrounded;
+    public bool Grounded;
+    public float GroundedOffset;
+    public float GroundedRadius;
+    public float upwardSlopeInfluence;
+    public float downwardSlopeInfluence;
+    public LayerMask GroundLayers;
 
     [Header("Runtime")]
     public Vector3 velocity;
@@ -55,9 +75,15 @@ public class Player_Motor : MonoBehaviour
         Look();
 
         WeaponSwap();
+        Jump();
         Interact();
         Reloading();
         Shooting();
+
+        if (Grounded && !wasGrounded)
+        {
+            currentJumpCount = maxJumpCount;
+        }
     }
 
 
@@ -132,7 +158,23 @@ public class Player_Motor : MonoBehaviour
         velocity.x = currentHorizontalVelocity.x;
         velocity.z = currentHorizontalVelocity.z;
     }
+    #endregion
 
+    #region JUMP
+    private void Jump()
+    {
+        if (input.jumpPressed)
+        {
+            if (currentJumpCount == 0)
+                return;
+            else
+                currentJumpCount--;
+
+            float currentJumpForce = jumpForce; //kept for future jump height changes for different states
+
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, currentJumpForce, rb.linearVelocity.z);
+        }
+    }
     #endregion
 
     #region SHOOTING
@@ -242,20 +284,32 @@ public class Player_Motor : MonoBehaviour
 
 
     #region GRAVITY
-
     private void Gravity()
     {
         if (!useGravity)
             return;
 
-        velocity.y +=
-            gravity * Time.fixedDeltaTime;
+        if (!Grounded && useGravity)
+        {
+            if (velocity.y > 0)
+            {
+                velocity.y +=
+                    gravity * Time.fixedDeltaTime;
 
-        velocity.y = Mathf.Max(
-            velocity.y,
-            terminalVelocity
-        );
+                /*if (playerBase.INPUT.jump && !Spinning) // controls jump height based on how long button is pressed
+                    gravityFlux = 3f;
+                else
+                    gravityFlux = 10f;*/
+
+                velocity.y = Mathf.Max(velocity.y, terminalVelocity);
+            }
+            else
+            {
+                //velocity.y = -10f;
+                velocity.y -= fallForce * Time.fixedDeltaTime; //Falling Down
+                velocity.y = Mathf.Max(velocity.y, terminalVelocity);
+            }
+        }
     }
-
     #endregion
 }
