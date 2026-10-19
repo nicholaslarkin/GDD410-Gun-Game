@@ -3,16 +3,44 @@ using UnityEngine;
 
 public class Player_Weapon : MonoBehaviour
 {
-    public Player_Statistics stats;
-    public UIManager uiManager;
-    public Transform weaponSlot;
-    public GameObject currentWeapon;
+    [SerializeField] private Transform weaponSlot;
+    [SerializeField] private List<WeaponData> weapons = new();
+    [SerializeField] private List<WeaponMod> weaponMods = new();
 
-    public List<WeaponData> weapons = new List<WeaponData>();
+    private readonly List<Weapon> weaponInstances = new();
+    private readonly List<WeaponMod> weaponModsInstances = new();
+
+    public Weapon CurrentWeapon { get; private set; }
 
     private void Awake()
     {
-        Debug.Log(weapons.Count);
+        foreach (WeaponData data in weapons)
+        {
+            if (data == null || data.weaponModel == null)
+                continue;
+
+            GameObject instance = Instantiate(
+                data.weaponModel,
+                weaponSlot
+            );
+
+            Weapon weapon = instance.GetComponent<Weapon>();
+
+            if (weapon == null)
+            {
+                Debug.LogError(
+                    $"{data.name} prefab is missing its Weapon component."
+                );
+
+                Destroy(instance);
+                continue;
+            }
+
+            weapon.Initialize(data);
+            instance.SetActive(false);
+
+            weaponInstances.Add(weapon);
+        }
     }
 
     private void Start()
@@ -20,41 +48,22 @@ public class Player_Weapon : MonoBehaviour
         WeaponSwap(3);
     }
 
-    public void WeaponSwitching(int weaponValue)
-    {
-        switch (weaponValue)
-        {
-            case 1:
-                WeaponSwap(weaponValue);
-                break;
-
-            case 2:
-                WeaponSwap(weaponValue);
-                break;
-
-            case 3:
-                WeaponSwap(weaponValue);
-                break;
-
-            default:
-                break;
-        }
-    }
-
     public void WeaponSwap(int weaponValue)
     {
-        if (currentWeapon != null)
+        int index = weaponValue - 1;
+
+        if (index < 0 || index >= weaponInstances.Count)
         {
-            Destroy(currentWeapon);
+            Debug.LogWarning($"Invalid weapon selection: {weaponValue}");
+            return;
         }
 
-        WeaponData weaponData = weapons[weaponValue - 1];
+        if (CurrentWeapon != null)
+            CurrentWeapon.gameObject.SetActive(false);
 
-        currentWeapon = Instantiate(weapons[weaponValue - 1].weaponModel, weaponSlot);
+        CurrentWeapon = weaponInstances[index];
+        CurrentWeapon.gameObject.SetActive(true);
 
-        stats.ChangeWeaponPrefab(weaponData);
-        uiManager.UpdateWeaponUI(weaponData.ammoClip);
-
-        Debug.Log("Switched to " + weapons[weaponValue - 1].name);
+        Player_Statistics.Instance.UpdateWeaponUI();
     }
 }

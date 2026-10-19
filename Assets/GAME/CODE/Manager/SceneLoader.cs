@@ -2,29 +2,25 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum SceneIndex
+{
+    TestLevel = 0,
+    Shop = 1,
+}
+
 public class SceneLoader : MonoBehaviour
 {
-    private void Update()
+    public SceneIndex sceneToGoTo;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (other.gameObject.CompareTag("PlayerHurtbox"))
         {
-            Cursor.lockState = CursorLockMode.None;
-            SceneManager.LoadScene("PrototypeMenu");
+            LoadScene(sceneToGoTo);
         }
     }
-
-    public void LoadTestLevel()
+    private void LoadScene(SceneIndex scene)
     {
-        SceneManager.LoadScene("TestLevel");
-    }
-
-    public void LoadMVPLevel()
-    {
-        SceneManager.LoadScene("MVPLevel");
-    }
-
-    public void LoadPressureLevel()
-    {
-        SceneManager.LoadScene("PressureLevel");
+        SceneManager.LoadScene(scene.ToString());
     }
 }

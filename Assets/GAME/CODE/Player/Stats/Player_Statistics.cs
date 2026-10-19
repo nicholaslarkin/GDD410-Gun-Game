@@ -1,112 +1,175 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(0)]
 public class Player_Statistics : ActorStatistics
 {
-    public WeaponData currentWeapon;
-    public Player_Weapon weapon;
+    public static Player_Statistics Instance { get; private set; }
 
-    public int ammoCount;
-    public int ammoReserve;
+    [SerializeField] private Player_Weapon weapon;
+
+    public int regularHearts;
+    public int gildedHearts;
+
+    private UIManager uiManager;
+
+    public Weapon CurrentWeapon => weapon != null
+        ? weapon.CurrentWeapon
+        : null;
 
     protected override void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+
         base.Awake();
 
-        //hp = playerData.hp;
-        //ammoCount = currentWeapon.ammoClip;
-        //ammoReserve = currentWeapon.ammoReserve;
+        if (weapon == null)
+            weapon = GetComponent<Player_Weapon>();
     }
 
     private void Start()
     {
-        ammoCount = currentWeapon.ammoClip;
-        ammoReserve = currentWeapon.ammoReserve;
+        uiManager = FindAnyObjectByType<UIManager>();
+
+        UpdateWeaponUI();
     }
 
     public virtual void Shot(bool hurtboxDetected, RaycastHit hit)
     {
-        ammoCount--;
+        Weapon current = CurrentWeapon;
+
+        if (current == null || !current.TryShoot())
+        {
+            UpdateWeaponUI();
+            return;
+        }
 
         if (hurtboxDetected)
         {
-            float distance = hit.distance;
-            float maxDistance = currentWeapon.maxRange;
-            float exponent = 2f;
+            WeaponData data = current.Data;
 
-            float distancePercent = Mathf.Clamp01(distance / maxDistance);
-            float falloff = Mathf.Pow(distancePercent, exponent);
+            float maxDistance = Mathf.Max(data.maxRange, 0.001f);
+            float distancePercent = Mathf.Clamp01(
+                hit.distance / maxDistance
+            );
+
+            float falloff = Mathf.Pow(distancePercent, 2f);
 
             int damageCalc = Mathf.RoundToInt(
-                Mathf.Lerp(currentWeapon.maxDamage, currentWeapon.minDamage, falloff));
+                Mathf.Lerp(
+                    data.maxDamage,
+                    data.minDamage,
+                    falloff
+                )
+            );
 
-            if (damageCalc <= 0)
+            if (damageCalc > 0)
             {
-                Debug.Log("Damage too low! Counted as a miss!");
-                return;
-            }
-            else
-            {
-                Debug.Log(damageCalc + " damage done when at a distance of " + hit.distance + " from target!");
-                hit.collider.GetComponentInParent<ActorStatistics>().TakeDamage(damageCalc);
+                ActorStatistics target =
+                    hit.collider.GetComponentInParent<ActorStatistics>();
+
+                if (target != null)
+                {
+                    target.TakeDamage(damageCalc);
+
+                    Debug.Log(
+                        $"{damageCalc} damage dealt at {hit.distance:F1} units."
+                    );
+                }
             }
         }
 
-        UIManager uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        uiManager.UpdateWeaponUI(ammoCount);
+        UpdateWeaponUI();
     }
 
     public void Reload()
     {
-        int ammoMissing = currentWeapon.ammoClip - ammoCount;
+        Weapon current = CurrentWeapon;
 
-        ammoReserve = ammoReserve - ammoMissing;
-        ammoCount = currentWeapon.ammoClip;
+        if (current == null)
+            return;
 
-        UIManager uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        uiManager.UpdateWeaponUI(ammoCount);
+        current.Reload();
+
+        UpdateWeaponUI();
     }
 
-    //USING MAGIC NUMBER HERE, CHANGE LATER TO DISPLAY NAMES FOR MORE CLARITy
+    public void UpdateWeaponUI()
+    {
+        if (uiManager == null)
+            uiManager = FindAnyObjectByType<UIManager>();
+
+        if (uiManager == null)
+            return;
+
+        Weapon current = CurrentWeapon;
+
+        if (current != null)
+            uiManager.UpdateWeaponUI(current.AmmoClip);
+    }
+
+    public void Hearts()
+    {
+        if (uiManager == null)
+            uiManager = FindAnyObjectByType<UIManager>();
+
+        if (uiManager != null)
+            uiManager.UpdateHeartCounters(regularHearts, gildedHearts);
+    }
+
     public void AddEffectFromPickup(int pickupArgument, int quantityAmount)
     {
-        UIManager uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        if (uiManager == null)
+            uiManager = FindAnyObjectByType<UIManager>();
 
         switch (pickupArgument)
         {
-            //Health
+            // Health
             case 1:
                 currentHealth += quantityAmount;
-                uiManager.UpdateHealthUI(currentHealth);
+
+                if (uiManager != null)
+                    uiManager.UpdateHealthUI(currentHealth);
                 break;
-            //Ammo
+
+            // Ammo for the currently equipped weapon
             case 2:
-                ammoReserve += quantityAmount;
-                uiManager.UpdateWeaponUI(ammoCount);
+                Weapon current = CurrentWeapon;
+
+                if (current != null)
+                    current.AddReserveAmmo(quantityAmount);
+
+                UpdateWeaponUI();
                 break;
-            //Misc
+
+            // Misc
             case 3:
-                Debug.Log("idk what to do with this misc pickup yet LOL");
+                Debug.Log("Misc pickup not implemented yet.");
                 break;
 
+            // Regular Hearts
+            case 4:
+                regularHearts += quantityAmount;
+                Hearts();
+                break;
 
+            // Gilded Hearts
+            case 5:
+                gildedHearts += quantityAmount;
+                Hearts();
+                break;
         }
-    }
-
-    public void ChangeWeaponPrefab(WeaponData weapon)
-    {
-        currentWeapon = weapon;
-
-        ammoCount = currentWeapon.ammoClip;
-        ammoReserve = currentWeapon.ammoReserve;
     }
 
     public override void Death()
     {
-        Cursor.lockState = CursorLockMode.None;
-        SceneManager.LoadScene("PrototypeMenu");
+        Destroy(gameObject);
     }
 }

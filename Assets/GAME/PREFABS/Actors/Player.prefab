@@ -14,7 +14,11 @@ GameObject:
   - component: {fileID: 1134490294335787678}
   - component: {fileID: 4607176184520564751}
   - component: {fileID: 4446947422818901998}
+  - component: {fileID: 1785625863900543241}
   - component: {fileID: 9189857953654805624}
+  - component: {fileID: 724239885637673718}
+  - component: {fileID: 2829843279750043957}
+  - component: {fileID: 3876479029995654983}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -83,10 +87,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Statistics
   actorData: {fileID: 11400000, guid: 0ef5f99cf0f778143b90aaa72ec8b30e, type: 2}
-  currentWeapon: {fileID: 0}
   weapon: {fileID: 1134490294335787678}
-  ammoCount: 0
-  ammoReserve: 0
+  regularHearts: 0
+  gildedHearts: 0
 --- !u!114 &1134490294335787678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,10 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1af8453f7cef94ab8a02a084c5e0e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Weapon
-  stats: {fileID: 3877968824358778374}
-  uiManager: {fileID: 0}
   weaponSlot: {fileID: 2529958970600833960}
-  currentWeapon: {fileID: 7871018801183720351}
   weapons:
   - {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
   - {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
@@ -128,14 +128,30 @@ MonoBehaviour:
   playerCamera: {fileID: 5499938246670396948}
   playerStats: {fileID: 0}
   weaponSwap: {fileID: 0}
-  moveSpeed: 10
+  moveSpeed: 30
   acceleration: 200
   deceleration: 100
+  jumpForce: 20
+  chargeJumpForce: 0
+  currentCoyoteTime: 0
+  maxCoyoteTime: 0.3
+  currentJumpCount: 0
+  maxJumpCount: 1
   mouseSensitivity: 0.1
   cameraPitchLimit: 80
   useGravity: 1
   gravity: -9.81
   terminalVelocity: -50
+  fallForce: 30
+  wasGrounded: 0
+  Grounded: 0
+  GroundedOffset: 1
+  GroundedRadius: 1
+  upwardSlopeInfluence: 0
+  downwardSlopeInfluence: 0
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 64
   velocity: {x: 0, y: 0, z: 0}
   moveInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
@@ -170,6 +186,20 @@ MonoBehaviour:
   weaponSwapPressed: 0
   weaponSwapReleased: 0
   cursorInputForLook: 1
+--- !u!114 &1785625863900543241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680805652097327138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 092d06bf73c643c449c4bd67e0be9fbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_GroundCheck
+  playerHeight: 3
+  maxSlopeAngle: 0.3
 --- !u!54 &9189857953654805624
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -197,6 +227,54 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &724239885637673718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680805652097327138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1e53dad0d236144891186beabfb091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Knife
+  weaponData: {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
+  hurtbox:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &2829843279750043957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680805652097327138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3774cbdc9b801f84ba27286b32baa524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pistol
+  weaponData: {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
+  hurtbox:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &3876479029995654983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680805652097327138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b3df4a751d4f549bda9b06c77920c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Shotgun
+  weaponData: {fileID: 11400000, guid: bc605692b558f694faa559f5869553f0, type: 2}
+  hurtbox:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2388940148461826732
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,11 +728,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
---- !u!1 &7871018801183720351 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6355348056607695157, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
-  m_PrefabInstance: {fileID: 3821799644328370858}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8367156062837490397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4690462301533724791, guid: 921bb21da5f1cf2419bce115dad5862c, type: 3}
@@ -751,7 +824,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   weaponData: {fileID: 0}
-  weaponType: 0
-  weaponModel: {fileID: 0}
-  ammoClip: 0
-  ammoReserve: 0

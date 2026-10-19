@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Player_Statistics playerStats;
+    public Player_Weapon currentWeapon;
     public Weapon weaponSlot;
 
     public RawImage weaponImage;
@@ -13,18 +14,25 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI ammoReserveText;
 
+    public TextMeshProUGUI regularHeartsText;
+    public TextMeshProUGUI gildedHeartsText;
+
     public GameObject ammoClipImage;
     public Transform ammoClipPos;
 
     public int ammoReserve;
 
+    private void Awake()
+    {
+        playerStats = GameObject.Find("Player").GetComponent<Player_Statistics>();
+        currentWeapon = GameObject.Find("Player").GetComponent<Player_Weapon>();
+    }
+
     private void Start()
     {
-        int currentHp = playerStats.currentHealth;
-        int ammoClipAmount = playerStats.ammoCount;
-
-        UpdateWeaponUI(ammoClipAmount);
-        UpdateHealthUI(currentHp);
+        UpdateWeaponUI(currentWeapon.CurrentWeapon.AmmoClip);
+        UpdateHealthUI(playerStats.currentHealth);
+        UpdateHeartCounters(playerStats.regularHearts, playerStats.gildedHearts);
     }
 
     public void UpdateWeaponUI(int ammoClipAmount)
@@ -48,8 +56,8 @@ public class UIManager : MonoBehaviour
             weaponSlot = weaponObject.GetComponent<Weapon>();
         }
 
-        weaponImage.texture = playerStats.currentWeapon.weaponImage;
-        ammoReserveText.text = playerStats.ammoReserve.ToString();
+        weaponImage.texture = currentWeapon.CurrentWeapon.Data.weaponImage;
+        ammoReserveText.text = currentWeapon.CurrentWeapon.AmmoReserve.ToString();
     }
 
     public void UpdateHealthUI(int currentHealth)
@@ -57,5 +65,11 @@ public class UIManager : MonoBehaviour
         Debug.Log("Updated Health");
 
         hpText.text = currentHealth.ToString();
+    }
+
+    public void UpdateHeartCounters(int regHearts, int gildHearts)
+    {
+        regularHeartsText.text = regHearts.ToString();
+        gildedHeartsText.text = gildHearts.ToString();
     }
 }

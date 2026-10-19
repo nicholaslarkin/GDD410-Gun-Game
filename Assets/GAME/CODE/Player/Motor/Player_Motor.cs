@@ -61,8 +61,10 @@ public class Player_Motor : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         input = GetComponent<Player_Input>();
-        raycastPointer = GameObject.Find("RaycastPointer");
+        playerStats = GetComponent<Player_Statistics>();
         weaponSwap = GetComponent<Player_Weapon>();
+
+        raycastPointer = GameObject.Find("RaycastPointer");
     }
 
 
@@ -178,24 +180,52 @@ public class Player_Motor : MonoBehaviour
     #endregion
 
     #region SHOOTING
+
     private void Shooting()
     {
-        if (input.shootPressed && playerStats.ammoCount > 0)
-        {
-            RaycastHit hit;
+        if (!input.shootPressed)
+            return;
 
-            if (Physics.Raycast(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, hurtbox))
-            {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green, 3f);
-                playerStats.Shot(true, hit);
-                Debug.Log("Shot something! Running Shot function with true");
-            }
-            else
-            {
-                Debug.DrawRay(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward) * hit.distance, Color.red, 3f);
-                playerStats.Shot(false, default);
-                Debug.Log("Nothing w/ Hurtbox was shot! Running Shot function with false");
-            }
+        if (playerStats == null || weaponSwap == null)
+            return;
+
+        Weapon currentWeapon = weaponSwap.CurrentWeapon;
+
+        if (currentWeapon == null || currentWeapon.AmmoClip <= 0)
+            return;
+
+        if (raycastPointer == null)
+            return;
+
+        Vector3 origin = raycastPointer.transform.position;
+        Vector3 direction = raycastPointer.transform.forward;
+
+        if (Physics.Raycast(
+            origin,
+            direction,
+            out RaycastHit hit,
+            currentWeapon.Data.maxRange,
+            hurtbox))
+        {
+            Debug.DrawRay(
+                origin,
+                direction * hit.distance,
+                Color.green,
+                3f
+            );
+
+            playerStats.Shot(true, hit);
+        }
+        else
+        {
+            Debug.DrawRay(
+                origin,
+                direction * currentWeapon.Data.maxRange,
+                Color.red,
+                3f
+            );
+
+            playerStats.Shot(false, default);
         }
     }
 
@@ -206,6 +236,7 @@ public class Player_Motor : MonoBehaviour
             playerStats.Reload();
         }
     }
+
     #endregion
 
     #region INTERACT
@@ -238,7 +269,7 @@ public class Player_Motor : MonoBehaviour
     {
         if (input.weaponSwapPressed)
         {
-            weaponSwap.WeaponSwitching(input.weaponSwapValue);
+            weaponSwap.WeaponSwap(input.weaponSwapValue);
         }
     }
     #endregion

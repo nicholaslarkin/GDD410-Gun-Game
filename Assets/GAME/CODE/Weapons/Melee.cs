@@ -4,11 +4,14 @@ public class Melee : Weapon
 {
     [SerializeField] private LayerMask hurtbox;
 
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
-
         hurtbox = LayerMask.GetMask("Hurtbox");
+    }
+
+    public override void Initialize(WeaponData data)
+    {
+        base.Initialize(weaponData);
     }
 
     public void ShootGun()
