@@ -3,22 +3,22 @@ using UnityEngine;
 public class Enemy_Statistics : ActorStatistics
 {
     [Header("Enemy-Specifics")]
-    //REWORK TO STATE MACHINE LATER
-    private bool _playerSpotted;
-    private bool _damageFlashing;
+    protected bool _damageFlashing;
 
-    [SerializeField] private Renderer currentMaterial;
-    [SerializeField] private Material idleColor;
-    [SerializeField] private Material spottedColor;
-    [SerializeField] private Material damagedColor;
-    [SerializeField] private Transform playerPos;
-    [SerializeField] private Transform bulletFirePoint;
-    [SerializeField] private GameObject bulletObj;
-    [SerializeField] private float fireRateMin;
-    [SerializeField] private float fireRateMax;
-    [SerializeField] private float aggroDistance = 20f;
-    private float fireRate;
-    private float timeLeftToFire;
+    [SerializeField] protected Renderer currentMaterial;
+    [SerializeField] protected Material idleColor;
+    [SerializeField] protected Material spottedColor;
+    [SerializeField] protected Material aggressiveColor;
+    [SerializeField] protected Material damagedColor;
+    [SerializeField] protected Material deathColor;
+    [SerializeField] protected Transform playerPos;
+    [SerializeField] protected Transform bulletFirePoint;
+    [SerializeField] protected GameObject bulletObj;
+    [SerializeField] protected float fireRateMin;
+    [SerializeField] protected float fireRateMax;
+    [SerializeField] protected float aggroDistance = 20f;
+    protected float fireRate;
+    public float timeLeftToFire;
 
     private void Start()
     {
@@ -29,42 +29,13 @@ public class Enemy_Statistics : ActorStatistics
     protected override void Update()
     {
         base.Update();
-
-        float distanceCheck = Vector3.Distance(playerPos.position, transform.position);
-
-        if (_damageFlashing)
-            return;
-
-        if (distanceCheck <= aggroDistance)
-        {
-            currentMaterial.material = spottedColor;
-            _playerSpotted = true;
-        }
-        else
-        {
-            currentMaterial.material = idleColor;
-            _playerSpotted = false;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        fireRate = Random.Range(fireRateMin, fireRateMax);
-
-        if (_playerSpotted)
-            timeLeftToFire += Time.deltaTime;
-        else
-            timeLeftToFire = fireRate / 1.5f;
-
-        if (timeLeftToFire >= fireRate && _playerSpotted)
-        {
-            ShootingPlayer();
-            timeLeftToFire = 0;
-        }
     }
 
     public override void TakeDamage(int amount)
     {
+        if (currentHealth <= 0)
+            return;
+
         base.TakeDamage(amount);
 
         currentMaterial.material = damagedColor;
@@ -78,11 +49,16 @@ public class Enemy_Statistics : ActorStatistics
         _damageFlashing = false;
     }
 
-    private void ShootingPlayer()
+    protected void ShootingPlayer()
     {
         GameObject bullet = Instantiate(bulletObj, bulletFirePoint.position, bulletFirePoint.rotation);
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.SetTarget(playerPos);
+    }
+
+    public override void Death()
+    {
+        return;
     }
 }

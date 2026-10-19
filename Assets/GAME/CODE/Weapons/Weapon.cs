@@ -1,40 +1,62 @@
-using UnityEditor;
 using UnityEngine;
 
-public enum WeaponItem
-{
-    Knife = 1,
-    Pistol = 2,
-    Shotgun = 3,
-}
 public enum WeaponTypes
 {
-    Melee = 0,
-    Non_Automatic = 1,
-    Burst = 2,
+    Knife = 0,
+    Pistol = 1,
+    Shotgun = 2,
 }
 
 public class Weapon : MonoBehaviour
 {
-    public WeaponData weaponData;
+    [SerializeField] protected WeaponData weaponData;
 
-    public WeaponTypes weaponType;
-    public GameObject weaponModel;
-    public int ammoClip;
-    public int ammoReserve;
+    public WeaponData Data => weaponData;
 
-    protected virtual void Awake()
+    public WeaponTypes WeaponType { get; private set; }
+
+    public int AmmoClip { get; private set; }
+    public int AmmoReserve { get; private set; }
+
+    public virtual void Initialize(WeaponData data)
     {
-        if (weaponData == null)
-            return;
+        weaponData = data;
 
-        weaponType = weaponData.weaponType;
-        ammoClip = weaponData.ammoClip;
-        ammoReserve = weaponData.ammoReserve;
+        if (weaponData == null)
+        {
+            Debug.LogError($"{name}: Missing WeaponData!");
+            return;
+        }
+
+        WeaponType = weaponData.weaponType;
+        AmmoClip = weaponData.ammoClip;
+        AmmoReserve = weaponData.ammoReserve;
     }
 
-    /*public virtual void ShootGun()
+    public bool TryShoot()
     {
-        ammoClip--;
-    }*/
+        if (AmmoClip <= 0)
+            return false;
+
+        AmmoClip--;
+        return true;
+    }
+
+    public void Reload()
+    {
+        int missingAmmo = weaponData.ammoClip - AmmoClip;
+        int ammoToLoad = Mathf.Min(missingAmmo, AmmoReserve);
+
+        if (ammoToLoad <= 0)
+            return;
+
+        AmmoClip += ammoToLoad;
+        AmmoReserve -= ammoToLoad;
+    }
+
+    public void AddReserveAmmo(int amount)
+    {
+        if (amount > 0)
+            AmmoReserve += amount;
+    }
 }
