@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(0)]
 public class Player_Statistics : ActorStatistics
@@ -170,6 +171,9 @@ public class Player_Statistics : ActorStatistics
 
     public override void Death()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+
+        currentHealth = 101;
+        SceneManager.LoadScene(0);
     }
 }

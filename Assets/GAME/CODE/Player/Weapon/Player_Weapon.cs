@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player_Weapon : MonoBehaviour
@@ -45,10 +46,13 @@ public class Player_Weapon : MonoBehaviour
 
     private void Start()
     {
-        WeaponSwap(3);
+        WeaponSwap(3,0);
     }
 
-    public void WeaponSwap(int weaponValue)
+    //
+    // TO DO: Finish up scroll wheel implementation
+    //
+    public void WeaponSwap(int weaponValue, int scrollWheelType) //UNFINISHED SCROLL WHEEL IMPLEMENTATION
     {
         int index = weaponValue - 1;
 
@@ -61,9 +65,32 @@ public class Player_Weapon : MonoBehaviour
         if (CurrentWeapon != null)
             CurrentWeapon.gameObject.SetActive(false);
 
-        CurrentWeapon = weaponInstances[index];
-        CurrentWeapon.gameObject.SetActive(true);
+        if (scrollWheelType == 1)
+        {
+            CurrentWeapon = weaponInstances[index - 1];
+            if (index >= weaponInstances.Count)
+            {
+                CurrentWeapon = weaponInstances.Max();
+            }
+            CurrentWeapon.gameObject.SetActive(true);
+        }
+        else if (scrollWheelType == 2)
+        {
+            CurrentWeapon = weaponInstances[index + 1];
+            if (index >= weaponInstances.Count)
+            {
+                CurrentWeapon = weaponInstances.Min();
+            }
+            CurrentWeapon.gameObject.SetActive(true);
+        }
+        else
+        {
+            CurrentWeapon = weaponInstances[index];
+            CurrentWeapon.gameObject.SetActive(true);
 
-        Player_Statistics.Instance.UpdateWeaponUI();
+        }
+
+
+            Player_Statistics.Instance.UpdateWeaponUI();
     }
 }

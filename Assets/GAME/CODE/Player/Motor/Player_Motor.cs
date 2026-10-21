@@ -183,19 +183,22 @@ public class Player_Motor : MonoBehaviour
 
     private void Shooting()
     {
+        Weapon currentWeapon = weaponSwap.CurrentWeapon;
+
         if (!input.shootPressed)
             return;
 
         if (playerStats == null || weaponSwap == null)
             return;
 
-        Weapon currentWeapon = weaponSwap.CurrentWeapon;
-
-        if (currentWeapon == null || currentWeapon.AmmoClip <= 0)
-            return;
-
         if (raycastPointer == null)
             return;
+
+        if (currentWeapon.Data.weaponType != WeaponTypes.Knife)
+        {
+            if (currentWeapon == null || currentWeapon.AmmoClip <= 0)
+                return;
+        }
 
         Vector3 origin = raycastPointer.transform.position;
         Vector3 direction = raycastPointer.transform.forward;
@@ -265,11 +268,24 @@ public class Player_Motor : MonoBehaviour
     #endregion
 
     #region WEAPON TOGGLE
-    private void WeaponSwap()
+    private void WeaponSwap() //Legacy Input Implementation
     {
+        Vector2 scrollDelta = Input.mouseScrollDelta;
+
         if (input.weaponSwapPressed)
         {
-            weaponSwap.WeaponSwap(input.weaponSwapValue);
+            if (scrollDelta.y > 0) //up
+            {
+                weaponSwap.WeaponSwap(input.weaponSwapValue, 1);
+            }
+            if (scrollDelta.y < 0) //down
+            {
+                weaponSwap.WeaponSwap(input.weaponSwapValue, 2);
+            }
+            else
+            {
+                weaponSwap.WeaponSwap(input.weaponSwapValue, 0);
+            }
         }
     }
     #endregion

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy_Statistics : ActorStatistics
 {
@@ -38,15 +39,19 @@ public class Enemy_Statistics : ActorStatistics
 
         base.TakeDamage(amount);
 
+        Material lastColor = currentMaterial.material;
         currentMaterial.material = damagedColor;
         _damageFlashing = true;
 
-        Invoke(nameof(ResetMaterial), 0.05f);
+        StartCoroutine(ResetMaterial(lastColor));
     }
 
-    private void ResetMaterial()
+    protected virtual IEnumerator ResetMaterial(Material lastColor)
     {
+        yield return new WaitForSeconds(0.1f);
+
         _damageFlashing = false;
+        currentMaterial.material = lastColor;
     }
 
     protected void ShootingPlayer()
@@ -59,6 +64,7 @@ public class Enemy_Statistics : ActorStatistics
 
     public override void Death()
     {
+        currentMaterial.material = deathColor;
         return;
     }
 }

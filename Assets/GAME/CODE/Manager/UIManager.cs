@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public Weapon weaponSlot;
 
     public RawImage weaponImage;
+    //public RawImage ammoClipImageUI;
 
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI ammoReserveText;
@@ -56,6 +57,7 @@ public class UIManager : MonoBehaviour
             weaponSlot = weaponObject.GetComponent<Weapon>();
         }
 
+        //ammoClipImageUI.texture = currentWeapon.CurrentWeapon.Data.ammoImage;
         weaponImage.texture = currentWeapon.CurrentWeapon.Data.weaponImage;
         ammoReserveText.text = currentWeapon.CurrentWeapon.AmmoReserve.ToString();
     }
@@ -65,6 +67,15 @@ public class UIManager : MonoBehaviour
         Debug.Log("Updated Health");
 
         hpText.text = currentHealth.ToString();
+
+        if (currentHealth >= 100)
+        {
+            hpText.text = 100.ToString();
+        }
+        if (currentHealth <= 0)
+        {
+            hpText.text = 0.ToString();
+        }
     }
 
     public void UpdateHeartCounters(int regHearts, int gildHearts)
