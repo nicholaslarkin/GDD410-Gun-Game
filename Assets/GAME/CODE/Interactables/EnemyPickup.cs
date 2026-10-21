@@ -22,11 +22,13 @@ public class EnemyPickup : Pickup, IInteractable
         if (enemyGrunt.timeLeftToDie <= maxTimeLeftToDie / 2)
         {
             playerActor.AddEffectFromPickup(4, quantityAmount);
+            Destroy(gameObject);
         }
         else if (enemyGrunt.timeLeftToDie >= maxTimeLeftToDie / 2)
         {
             playerActor.AddEffectFromPickup(5, quantityAmount);
+            Destroy(gameObject);
         }
-            //Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

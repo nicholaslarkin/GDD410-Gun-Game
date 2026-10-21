@@ -183,19 +183,22 @@ public class Player_Motor : MonoBehaviour
 
     private void Shooting()
     {
+        Weapon currentWeapon = weaponSwap.CurrentWeapon;
+
         if (!input.shootPressed)
             return;
 
         if (playerStats == null || weaponSwap == null)
             return;
 
-        Weapon currentWeapon = weaponSwap.CurrentWeapon;
-
-        if (currentWeapon == null || currentWeapon.AmmoClip <= 0)
-            return;
-
         if (raycastPointer == null)
             return;
+
+        if (currentWeapon.Data.weaponType != WeaponTypes.Knife)
+        {
+            if (currentWeapon == null || currentWeapon.AmmoClip <= 0)
+                return;
+        }
 
         Vector3 origin = raycastPointer.transform.position;
         Vector3 direction = raycastPointer.transform.forward;

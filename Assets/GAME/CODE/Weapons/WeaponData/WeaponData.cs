@@ -7,6 +7,8 @@ public class WeaponData : ScriptableObject
 
     public Texture weaponImage;
 
+    public Texture ammoImage;
+
     public GameObject weaponModel;
 
     public int ammoClip;

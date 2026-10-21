@@ -17,4 +17,6 @@ MonoBehaviour:
   weaponModel: {fileID: 1329033124911254211, guid: a14018049922e78409fb2340fa653a02, type: 3}
   ammoClip: 0
   ammoReserve: 0
-  damage: 100
+  minDamage: 40
+  maxDamage: 40
+  maxRange: 2

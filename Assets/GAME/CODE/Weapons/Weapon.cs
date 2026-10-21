@@ -35,6 +35,9 @@ public class Weapon : MonoBehaviour
 
     public bool TryShoot()
     {
+        if (weaponData.weaponType == WeaponTypes.Knife)
+            return true;
+
         if (AmmoClip <= 0)
             return false;
 

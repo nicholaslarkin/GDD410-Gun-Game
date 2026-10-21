@@ -49,7 +49,10 @@ public class Player_Weapon : MonoBehaviour
         WeaponSwap(3,0);
     }
 
-    public void WeaponSwap(int weaponValue, int scrollWheelType)
+    //
+    // TO DO: Finish up scroll wheel implementation
+    //
+    public void WeaponSwap(int weaponValue, int scrollWheelType) //UNFINISHED SCROLL WHEEL IMPLEMENTATION
     {
         int index = weaponValue - 1;
 

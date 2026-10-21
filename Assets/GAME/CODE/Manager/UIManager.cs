@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public Weapon weaponSlot;
 
     public RawImage weaponImage;
+    //public RawImage ammoClipImageUI;
 
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI ammoReserveText;
@@ -56,6 +57,7 @@ public class UIManager : MonoBehaviour
             weaponSlot = weaponObject.GetComponent<Weapon>();
         }
 
+        //ammoClipImageUI.texture = currentWeapon.CurrentWeapon.Data.ammoImage;
         weaponImage.texture = currentWeapon.CurrentWeapon.Data.weaponImage;
         ammoReserveText.text = currentWeapon.CurrentWeapon.AmmoReserve.ToString();
     }

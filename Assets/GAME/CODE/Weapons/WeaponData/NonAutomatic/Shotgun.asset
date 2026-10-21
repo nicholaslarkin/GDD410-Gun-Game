@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NonAutomaticData
   weaponType: 1
   weaponImage: {fileID: 2800000, guid: ae380b57465add549ad97c5539a00d09, type: 3}
+  ammoImage: {fileID: 2800000, guid: cf83c576baf33f7488ecc3fc02a4dea2, type: 3}
   weaponModel: {fileID: 5175277779780216888, guid: b2df6130e42512846a85842a7ceaa6c9, type: 3}
   ammoClip: 6
-  ammoReserve: 96
+  ammoReserve: 78
   minDamage: 2
   maxDamage: 112
   maxRange: 24
