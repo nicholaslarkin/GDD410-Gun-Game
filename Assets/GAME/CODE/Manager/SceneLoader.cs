@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 public enum SceneIndex
 {
     TestLevel = 0,
-    Shop = 1,
+    MovementTestLevel = 1,
+    Shop = 2,
 }
 
 public class SceneLoader : MonoBehaviour

@@ -265,11 +265,24 @@ public class Player_Motor : MonoBehaviour
     #endregion
 
     #region WEAPON TOGGLE
-    private void WeaponSwap()
+    private void WeaponSwap() //Legacy Input Implementation
     {
+        Vector2 scrollDelta = Input.mouseScrollDelta;
+
         if (input.weaponSwapPressed)
         {
-            weaponSwap.WeaponSwap(input.weaponSwapValue);
+            if (scrollDelta.y > 0) //up
+            {
+                weaponSwap.WeaponSwap(input.weaponSwapValue, 1);
+            }
+            if (scrollDelta.y < 0) //down
+            {
+                weaponSwap.WeaponSwap(input.weaponSwapValue, 2);
+            }
+            else
+            {
+                weaponSwap.WeaponSwap(input.weaponSwapValue, 0);
+            }
         }
     }
     #endregion

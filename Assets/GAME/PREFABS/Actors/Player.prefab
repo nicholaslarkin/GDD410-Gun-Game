@@ -16,9 +16,6 @@ GameObject:
   - component: {fileID: 4446947422818901998}
   - component: {fileID: 1785625863900543241}
   - component: {fileID: 9189857953654805624}
-  - component: {fileID: 724239885637673718}
-  - component: {fileID: 2829843279750043957}
-  - component: {fileID: 3876479029995654983}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -107,6 +104,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
   - {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
   - {fileID: 11400000, guid: bc605692b558f694faa559f5869553f0, type: 2}
+  weaponMods: []
 --- !u!114 &4607176184520564751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,54 +225,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &724239885637673718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1680805652097327138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab1e53dad0d236144891186beabfb091, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Knife
-  weaponData: {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
-  hurtbox:
-    serializedVersion: 2
-    m_Bits: 0
---- !u!114 &2829843279750043957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1680805652097327138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3774cbdc9b801f84ba27286b32baa524, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Pistol
-  weaponData: {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
-  hurtbox:
-    serializedVersion: 2
-    m_Bits: 0
---- !u!114 &3876479029995654983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1680805652097327138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47b3df4a751d4f549bda9b06c77920c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Shotgun
-  weaponData: {fileID: 11400000, guid: bc605692b558f694faa559f5869553f0, type: 2}
-  hurtbox:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &2388940148461826732
 GameObject:
   m_ObjectHideFlags: 0

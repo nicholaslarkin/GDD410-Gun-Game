@@ -65,6 +65,15 @@ public class UIManager : MonoBehaviour
         Debug.Log("Updated Health");
 
         hpText.text = currentHealth.ToString();
+
+        if (currentHealth >= 100)
+        {
+            hpText.text = 100.ToString();
+        }
+        if (currentHealth <= 0)
+        {
+            hpText.text = 0.ToString();
+        }
     }
 
     public void UpdateHeartCounters(int regHearts, int gildHearts)
