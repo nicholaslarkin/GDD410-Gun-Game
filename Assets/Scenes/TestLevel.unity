@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "GDD410_Hellevator \nPre-Midterm Build 10/21/2026 \nV0.2.1"
+  m_text: "GDD410_Hellevator \nMidterm Build 10/26/2026 \nV0.2.2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2515,7 +2515,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ab8149ec4775284bada96c1b85b4a09, type: 2}
+  - {fileID: 2100000, guid: cb6b5a4c8d60dac4cb22e2434bee106f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2612,6 +2612,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3877968824358778374, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: regularHearts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607176184520564751, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: fallForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607176184520564751, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: jumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607176184520564751, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: regularHearts
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: speedStatBoosts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: healthStatBoosts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: jumpHeightBoosts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: knifeWeaponMods.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2666,7 +2702,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 916b7dfc0c54c614db8d426775996af7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2756,6 +2792,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1567618489655499525, guid: 2afad9eb11e8feb4b8ef9da91b39d514, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -26.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1567618489655499525, guid: 2afad9eb11e8feb4b8ef9da91b39d514, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -2812,6 +2852,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6380534951805660010, guid: 2afad9eb11e8feb4b8ef9da91b39d514, type: 3}
+      propertyPath: weaponSlot
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380534951805660010, guid: 2afad9eb11e8feb4b8ef9da91b39d514, type: 3}
       propertyPath: playerStats
       value: 
       objectReference: {fileID: 387633281}
@@ -2819,6 +2863,10 @@ PrefabInstance:
       propertyPath: currentWeapon
       value: 
       objectReference: {fileID: 1724673407}
+    - target: {fileID: 6380534951805660010, guid: 2afad9eb11e8feb4b8ef9da91b39d514, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7144111940339034653, guid: 2afad9eb11e8feb4b8ef9da91b39d514, type: 3}
       propertyPath: m_IsActive
       value: 0

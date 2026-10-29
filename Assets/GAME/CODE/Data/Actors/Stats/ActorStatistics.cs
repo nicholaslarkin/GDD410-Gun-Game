@@ -9,8 +9,8 @@ public class ActorStatistics : MonoBehaviour
 
     public ActorData DATA => actorData;
 
-    public int currentHealth { get; protected set; }
-    public int maxHealth { get; protected set; }
+    public int currentHealth;
+    public int maxHealth;
 
     //public event Action<int> OnHealthChanged;
 

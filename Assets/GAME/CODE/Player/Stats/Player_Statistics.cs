@@ -8,9 +8,6 @@ public class Player_Statistics : ActorStatistics
 
     [SerializeField] private Player_Weapon weapon;
 
-    public int regularHearts;
-    public int gildedHearts;
-
     private UIManager uiManager;
 
     public Weapon CurrentWeapon => weapon != null
@@ -122,13 +119,18 @@ public class Player_Statistics : ActorStatistics
             uiManager = FindAnyObjectByType<UIManager>();
 
         if (uiManager != null)
-            uiManager.UpdateHeartCounters(regularHearts, gildedHearts);
+        {
+            Player_Inventory playerInventory = GetComponent<Player_Inventory>();
+            uiManager.UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
+        }
     }
 
     public void AddEffectFromPickup(int pickupArgument, int quantityAmount)
     {
         if (uiManager == null)
             uiManager = FindAnyObjectByType<UIManager>();
+
+        Player_Inventory playerInventory = GetComponent<Player_Inventory>();
 
         switch (pickupArgument)
         {
@@ -157,13 +159,13 @@ public class Player_Statistics : ActorStatistics
 
             // Regular Hearts
             case 4:
-                regularHearts += quantityAmount;
+                playerInventory.regularHearts += quantityAmount;
                 Hearts();
                 break;
 
             // Gilded Hearts
             case 5:
-                gildedHearts += quantityAmount;
+                playerInventory.gildedHearts += quantityAmount;
                 Hearts();
                 break;
         }
@@ -174,6 +176,6 @@ public class Player_Statistics : ActorStatistics
         //Destroy(gameObject);
 
         currentHealth = 101;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
 }

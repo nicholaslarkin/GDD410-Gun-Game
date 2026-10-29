@@ -137,6 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 451394011185039072}
   - component: {fileID: 2769025180819047076}
+  - component: {fileID: 9094555571974046379}
   - component: {fileID: 3877968824358778374}
   - component: {fileID: 1134490294335787678}
   - component: {fileID: 4607176184520564751}
@@ -199,6 +200,41 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &9094555571974046379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680805652097327138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd87296f11a5b734a8cf8a293b09669d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_Inventory
+  knifeWeaponMods:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  pistolWeaponMods:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shotgunWeaponMods:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  reserveWeaponMods:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  healthStatBoosts: 0
+  speedStatBoosts: 0
+  jumpHeightBoosts: 0
+  regularHearts: 0
+  gildedHearts: 0
 --- !u!114 &3877968824358778374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,9 +248,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Statistics
   actorData: {fileID: 11400000, guid: 0ef5f99cf0f778143b90aaa72ec8b30e, type: 2}
+  currentHealth: 0
+  maxHealth: 0
   weapon: {fileID: 1134490294335787678}
-  regularHearts: 0
-  gildedHearts: 0
 --- !u!114 &1134490294335787678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,3 +938,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   weaponData: {fileID: 0}
+  weaponAnim: {fileID: 0}
+  AmmoClip: 0

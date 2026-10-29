@@ -1,10 +1,32 @@
 using UnityEngine;
 
+public enum KnifeMods
+{
+    ModA,
+    ModB,
+}
+
+public enum PistolMods
+{
+    ModC,
+    ModD,
+}
+
+public enum ShotgunMods
+{
+    ModE,
+    ModF,
+}
+
 [CreateAssetMenu(fileName = "WeaponMod", menuName = "WeaponMod")]
+
 public class WeaponMod : ScriptableObject
 {
     public WeaponTypes weaponType;
-    public Texture weaponImage;
+    public Texture weaponModImage;
+    public int weaponModPrice;
+    public string weaponModName;
+    public string weaponModDescription;
 
     //public WeaponModAdditive[] weaponModAdditives;
 

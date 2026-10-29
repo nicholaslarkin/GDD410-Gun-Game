@@ -8,6 +8,8 @@ public class Player_Weapon : MonoBehaviour
     [SerializeField] private List<WeaponData> weapons = new();
     [SerializeField] private List<WeaponMod> weaponMods = new();
 
+    private Player_Inventory inventory;
+
     private readonly List<Weapon> weaponInstances = new();
     private readonly List<WeaponMod> weaponModsInstances = new();
 
@@ -15,15 +17,16 @@ public class Player_Weapon : MonoBehaviour
 
     private void Awake()
     {
+        inventory = GetComponent<Player_Inventory>();
+
+        inventory.InitializeReserveAmmo(weapons);
+
         foreach (WeaponData data in weapons)
         {
             if (data == null || data.weaponModel == null)
                 continue;
 
-            GameObject instance = Instantiate(
-                data.weaponModel,
-                weaponSlot
-            );
+            GameObject instance = Instantiate(data.weaponModel, weaponSlot);
 
             Weapon weapon = instance.GetComponent<Weapon>();
 
@@ -37,7 +40,7 @@ public class Player_Weapon : MonoBehaviour
                 continue;
             }
 
-            weapon.Initialize(data);
+            weapon.Initialize(data, inventory);
             instance.SetActive(false);
 
             weaponInstances.Add(weapon);
@@ -47,6 +50,11 @@ public class Player_Weapon : MonoBehaviour
     private void Start()
     {
         WeaponSwap(3,0);
+    }
+
+    public Weapon GetWeapon(WeaponData data)
+    {
+        return weaponInstances.Find(weapon => weapon.Data == data);
     }
 
     //
@@ -67,30 +75,17 @@ public class Player_Weapon : MonoBehaviour
 
         if (scrollWheelType == 1)
         {
-            CurrentWeapon = weaponInstances[index - 1];
-            if (index >= weaponInstances.Count)
-            {
-                CurrentWeapon = weaponInstances.Max();
-            }
-            CurrentWeapon.gameObject.SetActive(true);
+            index = (index - 1 + weaponInstances.Count)
+                % weaponInstances.Count;
         }
         else if (scrollWheelType == 2)
         {
-            CurrentWeapon = weaponInstances[index + 1];
-            if (index >= weaponInstances.Count)
-            {
-                CurrentWeapon = weaponInstances.Min();
-            }
-            CurrentWeapon.gameObject.SetActive(true);
-        }
-        else
-        {
-            CurrentWeapon = weaponInstances[index];
-            CurrentWeapon.gameObject.SetActive(true);
-
+            index = (index + 1) % weaponInstances.Count;
         }
 
+        CurrentWeapon = weaponInstances[index];
+        CurrentWeapon.gameObject.SetActive(true);
 
-            Player_Statistics.Instance.UpdateWeaponUI();
+        Player_Statistics.Instance.UpdateWeaponUI();
     }
 }

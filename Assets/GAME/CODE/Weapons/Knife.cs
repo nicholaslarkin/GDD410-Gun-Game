@@ -8,4 +8,14 @@ public class Knife : Melee
     {
         base.Awake();
     }
+
+    public override void Initialize(WeaponData data, Player_Inventory playerInventory)
+    {
+        base.Initialize(data, playerInventory);
+    }
+
+    public override bool TryShoot()
+    {
+        return base.TryShoot();
+    }
 }

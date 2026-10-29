@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Motor : MonoBehaviour
 {
@@ -60,9 +61,18 @@ public class Player_Motor : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        input = GetComponent<Player_Input>();
         playerStats = GetComponent<Player_Statistics>();
         weaponSwap = GetComponent<Player_Weapon>();
+
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        //
+        //Fix having input in shop scene later; this doesnt work because it doesnt destroy on load
+        //
+        if (currentScene.name != "Shop")
+        {
+            input = GetComponent<Player_Input>();
+        }
 
         raycastPointer = GameObject.Find("RaycastPointer");
     }

@@ -9,8 +9,13 @@ public class Melee : Weapon
         hurtbox = LayerMask.GetMask("Hurtbox");
     }
 
-    public override void Initialize(WeaponData data)
+    public override void Initialize(WeaponData data, Player_Inventory playerInventory)
     {
-        base.Initialize(weaponData);
+        base.Initialize(data, playerInventory);
+    }
+
+    public override bool TryShoot()
+    {
+        return base.TryShoot();
     }
 }

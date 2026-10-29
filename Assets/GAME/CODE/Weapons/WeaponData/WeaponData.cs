@@ -11,6 +11,8 @@ public class WeaponData : ScriptableObject
 
     public GameObject weaponModel;
 
+    public float reloadTime;
+
     public int ammoClip;
     public int ammoReserve;
 

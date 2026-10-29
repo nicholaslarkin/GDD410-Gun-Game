@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Player_Statistics playerStats;
+    public Player_Inventory playerInventory;
     public Player_Weapon currentWeapon;
     public Weapon weaponSlot;
 
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         playerStats = GameObject.Find("Player").GetComponent<Player_Statistics>();
+        playerInventory = GameObject.Find("Player").GetComponent<Player_Inventory>();
         currentWeapon = GameObject.Find("Player").GetComponent<Player_Weapon>();
     }
 
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
     {
         UpdateWeaponUI(currentWeapon.CurrentWeapon.AmmoClip);
         UpdateHealthUI(playerStats.currentHealth);
-        UpdateHeartCounters(playerStats.regularHearts, playerStats.gildedHearts);
+        UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
     }
 
     public void UpdateWeaponUI(int ammoClipAmount)

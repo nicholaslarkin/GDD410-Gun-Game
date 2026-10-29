@@ -9,4 +9,9 @@ public class Pistol : NonAutomatic
     {
         base.Awake();
     }
+
+    public override void Initialize(WeaponData data, Player_Inventory playerInventory)
+    {
+        base.Initialize(data, playerInventory);
+    }
 }

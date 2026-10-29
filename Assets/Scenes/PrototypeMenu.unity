@@ -995,13 +995,13 @@ MonoBehaviour:
     1, 2, 3 - Switch Weapons
 
 
-    Welcome to our pre-midterm build!
+    Welcome to our midterm build!
 
 
-    This build is primarily for testing movement and gun feel; this is unfinishable and is intended to be a playable loop.
+    Sorry about the state of it, you kinda caught us in the middle of implementing some new stuff into it.
 
 
-    The remaining mechanics for a full game loop will be present in the midterm build, but for now have fun with moving around and using your weaponry!
+    Stay tune for 11/4 build! We''ll have some real cool stuff then!
 
 
     Death will immediately bring you back to this menu.
@@ -1589,7 +1589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "GDD410_Hellevator \nPre-Midterm Build 10/21/2026 \nV0.2.1"
+  m_text: "GDD410_Hellevator \nMidterm Build 10/26/2026 \nV0.2.2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
