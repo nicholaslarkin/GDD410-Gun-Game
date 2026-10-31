@@ -2,22 +2,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Initialize used weapons from the list and handles weapon swapping
+/// </summary>
+
 public class Player_Weapon : MonoBehaviour
 {
     [SerializeField] private Transform weaponSlot;
     [SerializeField] private List<WeaponData> weapons = new();
-    [SerializeField] private List<WeaponMod> weaponMods = new();
 
     private Player_Inventory inventory;
+    private UIManager uiManager;
 
     private readonly List<Weapon> weaponInstances = new();
-    private readonly List<WeaponMod> weaponModsInstances = new();
 
     public Weapon CurrentWeapon { get; private set; }
 
     private void Awake()
     {
         inventory = GetComponent<Player_Inventory>();
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
 
         inventory.InitializeReserveAmmo(weapons);
 
@@ -86,6 +90,6 @@ public class Player_Weapon : MonoBehaviour
         CurrentWeapon = weaponInstances[index];
         CurrentWeapon.gameObject.SetActive(true);
 
-        Player_Statistics.Instance.UpdateWeaponUI();
+        uiManager.UpdateWeaponUI(CurrentWeapon.AmmoClip);
     }
 }

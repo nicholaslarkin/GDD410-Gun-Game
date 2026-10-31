@@ -20,4 +20,6 @@ public class WeaponData : ScriptableObject
     public int maxDamage;
 
     public float maxRange = 24f;
+
+    public float hitRadius;
 }

@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Anything actor within touching this hitbox will take damage
+/// </summary>
+
 public class Hitbox : MonoBehaviour
 {
     [SerializeField] private int damageValue;

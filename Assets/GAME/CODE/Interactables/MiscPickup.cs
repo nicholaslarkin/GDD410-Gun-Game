@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MiscPickup : Pickup, IInteractable
+public class MiscPickup : Pickup
 {
     public override void PickupItem()
     {

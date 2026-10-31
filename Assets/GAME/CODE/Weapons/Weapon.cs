@@ -1,5 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
+
+/// <summary>
+/// Actual weapon instances (holds basic weapon functions that has inherited scripts for unique functions
+/// </summary>
 
 public enum WeaponTypes
 {
@@ -20,9 +23,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] protected WeaponData weaponData;
     [SerializeField] protected Animator weaponAnim;
 
+    private LayerMask hurtbox;
+    private GameObject raycastPointer;
+
     protected Player_Inventory inventory;
 
-    public WeaponState state { get; private set; } = WeaponState.Idle;
+    protected UIManager uiManager;
+
+    public WeaponState state { get; protected set; } = WeaponState.Idle;
 
     public WeaponData Data => weaponData;
 
@@ -31,7 +39,15 @@ public class Weapon : MonoBehaviour
     public int AmmoClip;
     public int AmmoReserve => inventory.GetReserveAmmo(weaponData);
 
-    private void FixedUpdate()
+    protected virtual void Awake()
+    {
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+
+        hurtbox = LayerMask.GetMask("Hurtbox");
+        raycastPointer = GameObject.Find("RaycastPointer");
+    }
+
+    /*private void Update()
     {
         switch (state)
         {
@@ -47,7 +63,7 @@ public class Weapon : MonoBehaviour
                 UpdateReloading();
                 break;
         }
-    }
+    }*/
 
     public virtual void Initialize(WeaponData data, Player_Inventory playerInventory)
     {
@@ -71,9 +87,21 @@ public class Weapon : MonoBehaviour
         AmmoClip = weaponData.ammoClip;
     }
 
-    public virtual bool TryShoot()
+    public virtual bool TryShoot(out RaycastHit hit)
     {
-        switch (weaponData.weaponType)
+        Vector3 origin = raycastPointer.transform.position;
+        Vector3 direction = raycastPointer.transform.forward;
+
+        if (Physics.SphereCast(origin, weaponData.hitRadius, direction, out hit, weaponData.maxRange, hurtbox))
+        {
+            Debug.DrawRay(origin, direction * hit.distance, Color.green, 3f);
+            return true;
+        }
+
+        Debug.DrawRay(origin, direction * weaponData.maxRange, Color.red, 3f);
+        return false;
+
+        /*switch (weaponData.weaponType)
         {
             case WeaponTypes.Knife:
                 weaponAnim.SetBool("isAttacking", true);
@@ -90,10 +118,43 @@ public class Weapon : MonoBehaviour
                 return true;
         }
 
-        return false;
+        return false;*/
     }
 
-    public void Reload()
+    public virtual void Shot()
+    {
+        if (!TryShoot(out RaycastHit hit))
+            return;
+
+        ActorStatistics target =
+            hit.collider.GetComponentInParent<ActorStatistics>();
+
+        if (target == null)
+            return;
+
+        WeaponData data = weaponData;
+
+        float distancePercent = Mathf.Clamp01(
+            hit.distance / Mathf.Max(data.maxRange, 0.001f)
+        );
+
+        float falloff = Mathf.Pow(distancePercent, 2f);
+
+        int damageCalc = Mathf.RoundToInt(
+            Mathf.Lerp(data.maxDamage, data.minDamage, falloff)
+        );
+
+        if (damageCalc > 0)
+        {
+            target.TakeDamage(damageCalc);
+
+            Debug.Log(
+                $"{damageCalc} damage dealt at {hit.distance:F1} units."
+            );
+        }
+    }
+
+    public virtual void Reload()
     {
         if (weaponData == null || WeaponType == WeaponTypes.Knife)
             return;
@@ -106,6 +167,7 @@ public class Weapon : MonoBehaviour
 
         weaponAnim.SetBool("isReloading", true);
         AmmoClip += ammoToLoad;
+        uiManager.UpdateWeaponUI(AmmoClip);
     }
 
     public void AddReserveAmmo(int amount)
@@ -113,37 +175,17 @@ public class Weapon : MonoBehaviour
         inventory.AddReserveAmmo(weaponData, amount);
     }
 
-    private void SetState(WeaponState newState)
-    {
-        if (state == newState)
-            return;
-
-        state = newState;
-
-        switch (state)
-        {
-            case WeaponState.Idle:
-                break;
-
-            case WeaponState.Firing:
-                break;
-
-            case WeaponState.Reloading:
-                break;
-        }
-    }
-
-    protected void UpdateIdle()
+    protected virtual void UpdateIdle()
     {
 
     }
 
-    protected void UpdateFiring()
+    protected virtual void UpdateFiring()
     {
 
     }
 
-    protected void UpdateReloading()
+    protected virtual void UpdateReloading()
     {
 
     }

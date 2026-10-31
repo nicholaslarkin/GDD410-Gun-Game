@@ -2,6 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// World space UI to showcase test stats (health, enemy state)
+/// </summary>
+
 public class Enemy_UI : MonoBehaviour
 {
     [SerializeField] private Enemy_Statistics enemyStats;

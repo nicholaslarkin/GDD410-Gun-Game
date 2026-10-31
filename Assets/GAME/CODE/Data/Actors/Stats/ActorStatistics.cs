@@ -1,6 +1,11 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Handles basic actor functions (taking damage and dying; things all actors possess as a player, 
+/// enemy, maybe breakable doors?)
+/// </summary>
+
 public class ActorStatistics : MonoBehaviour
 {
     [SerializeField] private ActorData actorData;

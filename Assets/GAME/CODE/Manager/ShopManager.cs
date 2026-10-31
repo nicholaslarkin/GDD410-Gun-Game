@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Handles buying and adding things to "Player_Inventory" if and when the player clicks on them in the Shop menu
+/// </summary>
+
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private Player_Statistics playerStats;

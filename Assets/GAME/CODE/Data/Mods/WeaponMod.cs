@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// SO that holds info on a Weapon Mod for other scripts to read
+/// </summary>
+
 public enum KnifeMods
 {
     ModA,

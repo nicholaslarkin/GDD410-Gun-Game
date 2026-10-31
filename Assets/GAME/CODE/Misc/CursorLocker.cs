@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Scene specific instruction on if the cursor should be locked or not
+/// Usually just placed on its own unique object when needed
+/// </summary>
+
 public enum CursorMode
 {
     Unlock = 0,

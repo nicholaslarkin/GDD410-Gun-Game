@@ -35,101 +35,13 @@ public class Player_Statistics : ActorStatistics
     private void Start()
     {
         uiManager = FindAnyObjectByType<UIManager>();
-
-        UpdateWeaponUI();
     }
 
-    public virtual void Shot(bool hurtboxDetected, RaycastHit hit)
-    {
-        Weapon current = CurrentWeapon;
-
-        if (current == null || !current.TryShoot())
-        {
-            UpdateWeaponUI();
-            return;
-        }
-
-        if (hurtboxDetected)
-        {
-            WeaponData data = current.Data;
-
-            float maxDistance = Mathf.Max(data.maxRange, 0.001f);
-            float distancePercent = Mathf.Clamp01(
-                hit.distance / maxDistance
-            );
-
-            float falloff = Mathf.Pow(distancePercent, 2f);
-
-            int damageCalc = Mathf.RoundToInt(
-                Mathf.Lerp(
-                    data.maxDamage,
-                    data.minDamage,
-                    falloff
-                )
-            );
-
-            if (damageCalc > 0)
-            {
-                ActorStatistics target =
-                    hit.collider.GetComponentInParent<ActorStatistics>();
-
-                if (target != null)
-                {
-                    target.TakeDamage(damageCalc);
-
-                    Debug.Log(
-                        $"{damageCalc} damage dealt at {hit.distance:F1} units."
-                    );
-                }
-            }
-        }
-
-        UpdateWeaponUI();
-    }
-
-    public void Reload()
-    {
-        Weapon current = CurrentWeapon;
-
-        if (current == null)
-            return;
-
-        current.Reload();
-
-        UpdateWeaponUI();
-    }
-
-    public void UpdateWeaponUI()
-    {
-        if (uiManager == null)
-            uiManager = FindAnyObjectByType<UIManager>();
-
-        if (uiManager == null)
-            return;
-
-        Weapon current = CurrentWeapon;
-
-        if (current != null)
-            uiManager.UpdateWeaponUI(current.AmmoClip);
-    }
-
-    public void Hearts()
-    {
-        if (uiManager == null)
-            uiManager = FindAnyObjectByType<UIManager>();
-
-        if (uiManager != null)
-        {
-            Player_Inventory playerInventory = GetComponent<Player_Inventory>();
-            uiManager.UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
-        }
-    }
-
+    //
+    // TO DO: Find some way to truncate this function into another script; doesn't really belong here...?
+    //
     public void AddEffectFromPickup(int pickupArgument, int quantityAmount)
     {
-        if (uiManager == null)
-            uiManager = FindAnyObjectByType<UIManager>();
-
         Player_Inventory playerInventory = GetComponent<Player_Inventory>();
 
         switch (pickupArgument)
@@ -149,7 +61,7 @@ public class Player_Statistics : ActorStatistics
                 if (current != null)
                     current.AddReserveAmmo(quantityAmount);
 
-                UpdateWeaponUI();
+                uiManager.UpdateWeaponUI(quantityAmount);
                 break;
 
             // Misc
@@ -160,13 +72,13 @@ public class Player_Statistics : ActorStatistics
             // Regular Hearts
             case 4:
                 playerInventory.regularHearts += quantityAmount;
-                Hearts();
+                uiManager.UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
                 break;
 
             // Gilded Hearts
             case 5:
                 playerInventory.gildedHearts += quantityAmount;
-                Hearts();
+                uiManager.UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
                 break;
         }
     }

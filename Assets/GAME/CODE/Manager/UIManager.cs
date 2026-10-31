@@ -2,6 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles the main gameplay UI (reads other scripts and runs functions in them to update the UI)
+/// </summary>
+
 [DefaultExecutionOrder(1)]
 public class UIManager : MonoBehaviour
 {

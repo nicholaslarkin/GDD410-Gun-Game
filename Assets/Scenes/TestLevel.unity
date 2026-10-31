@@ -513,6 +513,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100128745887536440, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5021889939218958255, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.9300003
@@ -551,6 +555,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5021889939218958255, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199190513125710838, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8479219482310354815, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
@@ -1586,6 +1594,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100128745887536440, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1224603351864553974, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
       propertyPath: wanderSpeed
       value: 2
@@ -1667,6 +1679,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100128745887536440, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1224603351864553974, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
       propertyPath: wanderSpeed
       value: 2
@@ -2269,6 +2285,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100128745887536440, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1224603351864553974, guid: df8a80fe1947beb42bfa5255938d678e, type: 3}
       propertyPath: wanderSpeed
       value: 2
@@ -2412,6 +2432,10 @@ PrefabInstance:
     - target: {fileID: 4364526279817474618, guid: c75f9e94b45eaed4ca5294227d6f6c03, type: 3}
       propertyPath: m_Name
       value: Health Pickup Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 7898003781880103748, guid: c75f9e94b45eaed4ca5294227d6f6c03, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2608,9 +2632,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1134490294335787678, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: weapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134490294335787678, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: 'weapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
+    - target: {fileID: 1134490294335787678, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: 'weapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bc605692b558f694faa559f5869553f0, type: 2}
     - target: {fileID: 1680805652097327138, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877968824358778374, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: maxHealth
+      value: 999999
       objectReference: {fileID: 0}
     - target: {fileID: 3877968824358778374, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       propertyPath: regularHearts
@@ -2630,7 +2670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       propertyPath: regularHearts
-      value: 51
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9094555571974046379, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       propertyPath: speedStatBoosts
@@ -2777,6 +2817,10 @@ PrefabInstance:
     - target: {fileID: 1838880378360084712, guid: 152926adcac38144a9ccf535ac4929f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2125200076926481065, guid: 152926adcac38144a9ccf535ac4929f0, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3225,6 +3269,10 @@ PrefabInstance:
     - target: {fileID: 3219740616016113402, guid: 6643554f81c8a9f44aa47daf25df02df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7470216424405618010, guid: 6643554f81c8a9f44aa47daf25df02df, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7635529916281531692, guid: 6643554f81c8a9f44aa47daf25df02df, type: 3}
       propertyPath: m_Name

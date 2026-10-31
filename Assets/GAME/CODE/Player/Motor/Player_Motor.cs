@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Controls motor functions and input registration for other scripts to read and run their codes
+/// when told to do so
+/// </summary>
+
+//NOTE: Move anything that takes input into its own scripts later? (cut out the middle man)
 public class Player_Motor : MonoBehaviour
 {
     #region VARIABLES
 
     [Header("Components")]
     public Rigidbody rb;
-    public GameObject raycastPointer;
-    public LayerMask hurtbox;
     public Player_Input input;
     public Transform playerCamera;
     public Player_Statistics playerStats; //changed from Weapon for testing
-    public Player_Weapon weaponSwap;
+    public Player_Weapon playerWeapon;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -50,8 +54,8 @@ public class Player_Motor : MonoBehaviour
 
     [Header("Runtime")]
     public Vector3 velocity;
-    public Vector2 moveInput;
-    public Vector2 lookInput;
+    public readonly Vector2 moveInput;
+    public readonly Vector2 lookInput;
 
     private float cameraPitch;
 
@@ -61,10 +65,11 @@ public class Player_Motor : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        input = GetComponent<Player_Input>();
         playerStats = GetComponent<Player_Statistics>();
-        weaponSwap = GetComponent<Player_Weapon>();
+        playerWeapon = GetComponent<Player_Weapon>();
 
-        Scene currentScene = SceneManager.GetActiveScene();
+        /*Scene currentScene = SceneManager.GetActiveScene();
 
         //
         //Fix having input in shop scene later; this doesnt work because it doesnt destroy on load
@@ -72,23 +77,17 @@ public class Player_Motor : MonoBehaviour
         if (currentScene.name != "Shop")
         {
             input = GetComponent<Player_Input>();
-        }
-
-        raycastPointer = GameObject.Find("RaycastPointer");
+        }*/
     }
 
 
     private void Update()
     {
-        //Needs to be in update for weapon swapping; change later if performance hit
-        playerStats = GetComponentInChildren<Player_Statistics>();
-
         //handling camera in Update since mouse movement is frame-based
         Look();
 
         WeaponSwap();
         Jump();
-        Interact();
         Reloading();
         Shooting();
 
@@ -101,8 +100,6 @@ public class Player_Motor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SetMoveInput();
-
         velocity = rb.linearVelocity;
 
         Move();
@@ -110,17 +107,6 @@ public class Player_Motor : MonoBehaviour
 
         rb.linearVelocity = velocity;
     }
-
-
-    #region INPUT
-
-    private void SetMoveInput()
-    {
-        moveInput = input.movement;
-    }
-
-    #endregion
-
 
     #region MOVEMENT
 
@@ -136,8 +122,8 @@ public class Player_Motor : MonoBehaviour
         cameraRight.Normalize();
 
         Vector3 moveDirection =
-            cameraRight * moveInput.x +
-            cameraForward * moveInput.y;
+            cameraRight * input.movement.x +
+            cameraForward * input.movement.y;
 
         if (moveDirection.sqrMagnitude > 1f)
             moveDirection.Normalize();
@@ -178,67 +164,28 @@ public class Player_Motor : MonoBehaviour
         if (input.jumpPressed)
         {
             if (currentJumpCount == 0)
+            {
+                wasGrounded = false;
                 return;
+            }
             else
+            {
+                wasGrounded = true;
                 currentJumpCount--;
+            }
 
-            float currentJumpForce = jumpForce; //kept for future jump height changes for different states
-
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, currentJumpForce, rb.linearVelocity.z);
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
         }
     }
     #endregion
 
     #region SHOOTING
-
     private void Shooting()
     {
-        Weapon currentWeapon = weaponSwap.CurrentWeapon;
-
-        if (!input.shootPressed)
-            return;
-
-        if (playerStats == null || weaponSwap == null)
-            return;
-
-        if (raycastPointer == null)
-            return;
-
-        if (currentWeapon.Data.weaponType != WeaponTypes.Knife)
+        if (input.shootPressed)
         {
-            if (currentWeapon == null || currentWeapon.AmmoClip <= 0)
-                return;
-        }
-
-        Vector3 origin = raycastPointer.transform.position;
-        Vector3 direction = raycastPointer.transform.forward;
-
-        if (Physics.Raycast(
-            origin,
-            direction,
-            out RaycastHit hit,
-            currentWeapon.Data.maxRange,
-            hurtbox))
-        {
-            Debug.DrawRay(
-                origin,
-                direction * hit.distance,
-                Color.green,
-                3f
-            );
-
-            playerStats.Shot(true, hit);
-        }
-        else
-        {
-            Debug.DrawRay(
-                origin,
-                direction * currentWeapon.Data.maxRange,
-                Color.red,
-                3f
-            );
-
-            playerStats.Shot(false, default);
+            Weapon currentWeapon = playerWeapon.CurrentWeapon;
+            currentWeapon.Shot();
         }
     }
 
@@ -246,33 +193,8 @@ public class Player_Motor : MonoBehaviour
     {
         if (input.reloadPressed)
         {
-            playerStats.Reload();
-        }
-    }
-
-    #endregion
-
-    #region INTERACT
-    private void Interact()
-    {
-        // Refactor and merge this functionality with Shooting as well later
-
-        if (input.interactPressed)
-        {
-            RaycastHit hit;
-
-            if (Physics.Raycast(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward), out hit, 1f))
-            {
-                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                interactable?.PickupItem();
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green, 3f);
-                Debug.Log("Pick up Item!");
-            }
-            else
-            {
-                Debug.DrawRay(raycastPointer.transform.position, raycastPointer.transform.TransformDirection(Vector3.forward) * hit.distance, Color.red, 3f);
-                Debug.Log("No Item to pick up!");
-            }
+            Weapon currentWeapon = playerWeapon.CurrentWeapon;
+            currentWeapon.Reload();
         }
     }
     #endregion
@@ -286,15 +208,15 @@ public class Player_Motor : MonoBehaviour
         {
             if (scrollDelta.y > 0) //up
             {
-                weaponSwap.WeaponSwap(input.weaponSwapValue, 1);
+                playerWeapon.WeaponSwap(input.weaponSwapValue, 1);
             }
             if (scrollDelta.y < 0) //down
             {
-                weaponSwap.WeaponSwap(input.weaponSwapValue, 2);
+                playerWeapon.WeaponSwap(input.weaponSwapValue, 2);
             }
             else
             {
-                weaponSwap.WeaponSwap(input.weaponSwapValue, 0);
+                playerWeapon.WeaponSwap(input.weaponSwapValue, 0);
             }
         }
     }
@@ -302,19 +224,16 @@ public class Player_Motor : MonoBehaviour
 
 
     #region LOOK
-
     private void Look()
     {
         if (!input.cursorInputForLook)
             return;
 
-        lookInput = input.look;
-
         float mouseX =
-            lookInput.x * mouseSensitivity;
+            input.look.x * mouseSensitivity;
 
         float mouseY =
-            lookInput.y * mouseSensitivity;
+            input.look.y * mouseSensitivity;
 
         transform.Rotate(
             Vector3.up * mouseX
@@ -323,20 +242,10 @@ public class Player_Motor : MonoBehaviour
         // Rotate camera up/down.
         cameraPitch -= mouseY;
 
-        cameraPitch = Mathf.Clamp(
-            cameraPitch,
-            -cameraPitchLimit,
-            cameraPitchLimit
-        );
+        cameraPitch = Mathf.Clamp(cameraPitch, -cameraPitchLimit, cameraPitchLimit);
 
-        playerCamera.localRotation =
-            Quaternion.Euler(
-                cameraPitch,
-                0f,
-                0f
-            );
+        playerCamera.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
     }
-
     #endregion
 
 
@@ -350,20 +259,12 @@ public class Player_Motor : MonoBehaviour
         {
             if (velocity.y > 0)
             {
-                velocity.y +=
-                    gravity * Time.fixedDeltaTime;
-
-                /*if (playerBase.INPUT.jump && !Spinning) // controls jump height based on how long button is pressed
-                    gravityFlux = 3f;
-                else
-                    gravityFlux = 10f;*/
-
+                velocity.y += gravity * Time.fixedDeltaTime;
                 velocity.y = Mathf.Max(velocity.y, terminalVelocity);
             }
             else
             {
-                //velocity.y = -10f;
-                velocity.y -= fallForce * Time.fixedDeltaTime; //Falling Down
+                velocity.y -= fallForce * Time.fixedDeltaTime;
                 velocity.y = Mathf.Max(velocity.y, terminalVelocity);
             }
         }

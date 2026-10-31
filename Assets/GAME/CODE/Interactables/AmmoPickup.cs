@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AmmoPickup : Pickup, IInteractable
+public class AmmoPickup : Pickup
 {
     public override void PickupItem()
     {

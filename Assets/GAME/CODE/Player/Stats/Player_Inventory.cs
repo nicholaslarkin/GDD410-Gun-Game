@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Holds player items and stats (stat changes, hearts, weapon mods, etc.)
+/// </summary>
+
 public class Player_Inventory : MonoBehaviour
 {
     private Player_Motor playerMotor;
@@ -143,8 +147,6 @@ public class Player_Inventory : MonoBehaviour
         }
     }
     #endregion
-
-
 
     #region RESERVE AMMO
     //

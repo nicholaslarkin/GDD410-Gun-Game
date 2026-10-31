@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
+/// <summary>
+/// Empty slots that hold generated weapon mods that can bought
+/// </summary>
+
 public class WeaponModShopSlot : MonoBehaviour
 {
     [SerializeField] private RawImage weaponModImage;
