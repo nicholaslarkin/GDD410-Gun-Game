@@ -20,6 +20,6 @@ MonoBehaviour:
   ammoClip: 6
   ammoReserve: 78
   minDamage: 2
-  maxDamage: 112
-  maxRange: 24
+  maxDamage: 106
+  maxRange: 28
   hitRadius: 1.2

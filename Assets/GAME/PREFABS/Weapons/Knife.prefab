@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15.6}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27, y: 19.6}
+  m_AnchoredPosition: {x: 27, y: 12.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6299690761624071083
@@ -220,9 +220,6 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
   weaponAnim: {fileID: 1374759369286027958}
   AmmoClip: 0
-  hurtbox:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &1516826865200704162
 GameObject:
   m_ObjectHideFlags: 0

@@ -212,10 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd87296f11a5b734a8cf8a293b09669d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Inventory
-  knifeWeaponMods:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  knifeWeaponMods: []
   pistolWeaponMods:
   - {fileID: 0}
   - {fileID: 0}
@@ -230,9 +227,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  healthStatBoosts: 0
-  speedStatBoosts: 0
-  jumpHeightBoosts: 0
+  healthStatBoosts: 5
+  speedStatBoosts: 5
+  jumpHeightBoosts: 5
   regularHearts: 0
   gildedHearts: 0
 --- !u!114 &3877968824358778374
@@ -249,7 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player_Statistics
   actorData: {fileID: 11400000, guid: 0ef5f99cf0f778143b90aaa72ec8b30e, type: 2}
   currentHealth: 0
-  maxHealth: 0
+  maxHealth: 100
   weapon: {fileID: 1134490294335787678}
 --- !u!114 &1134490294335787678
 MonoBehaviour:
@@ -268,7 +265,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
   - {fileID: 11400000, guid: 79e516f271ae8484cb54df279d8e0a6b, type: 2}
   - {fileID: 11400000, guid: bc605692b558f694faa559f5869553f0, type: 2}
-  weaponMods: []
 --- !u!114 &4607176184520564751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,29 +278,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Motor
   rb: {fileID: 9189857953654805624}
-  raycastPointer: {fileID: 0}
-  hurtbox:
-    serializedVersion: 2
-    m_Bits: 128
   input: {fileID: 0}
   playerCamera: {fileID: 5499938246670396948}
   playerStats: {fileID: 0}
-  weaponSwap: {fileID: 0}
-  moveSpeed: 30
+  playerWeapon: {fileID: 0}
+  moveSpeed: 10
   acceleration: 200
   deceleration: 100
-  jumpForce: 20
+  jumpForce: 10
   chargeJumpForce: 0
   currentCoyoteTime: 0
   maxCoyoteTime: 0.3
   currentJumpCount: 0
   maxJumpCount: 1
-  mouseSensitivity: 0.1
+  mouseSensitivity: 10
   cameraPitchLimit: 80
   useGravity: 1
   gravity: -9.81
   terminalVelocity: -50
-  fallForce: 30
+  fallForce: 10
   wasGrounded: 0
   Grounded: 0
   GroundedOffset: 1
@@ -315,8 +307,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   velocity: {x: 0, y: 0, z: 0}
-  moveInput: {x: 0, y: 0}
-  lookInput: {x: 0, y: 0}
 --- !u!114 &4446947422818901998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,7 +727,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 70
+    FieldOfView: 80
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000

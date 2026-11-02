@@ -85,13 +85,14 @@ public class Player_Motor : MonoBehaviour
     {
         //handling camera in Update since mouse movement is frame-based
         Look();
+        CameraLean();
 
         WeaponSwap();
         Jump();
         Reloading();
         Shooting();
 
-        if (Grounded && !wasGrounded)
+        if (Grounded)
         {
             currentJumpCount = maxJumpCount;
         }
@@ -165,14 +166,10 @@ public class Player_Motor : MonoBehaviour
         {
             if (currentJumpCount == 0)
             {
-                wasGrounded = false;
                 return;
             }
-            else
-            {
-                wasGrounded = true;
-                currentJumpCount--;
-            }
+
+            currentJumpCount--;
 
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
         }
@@ -230,14 +227,12 @@ public class Player_Motor : MonoBehaviour
             return;
 
         float mouseX =
-            input.look.x * mouseSensitivity;
+            input.look.x * mouseSensitivity * Time.deltaTime;
 
         float mouseY =
-            input.look.y * mouseSensitivity;
+            input.look.y * mouseSensitivity * Time.deltaTime;
 
-        transform.Rotate(
-            Vector3.up * mouseX
-        );
+        transform.Rotate(Vector3.up * mouseX);
 
         // Rotate camera up/down.
         cameraPitch -= mouseY;
@@ -270,4 +265,22 @@ public class Player_Motor : MonoBehaviour
         }
     }
     #endregion
+
+    #region CAMERA
+    private void CameraLean()
+    {
+        float targetLean = 0f;
+
+        if (input.movement.x > 0)
+            targetLean = 75f;
+        else if (input.movement.x < 0)
+            targetLean = -75f;
+
+        Vector3 currentRotation = playerCamera.localEulerAngles;
+
+        float newLean = Mathf.LerpAngle(currentRotation.z, targetLean, 2f * Time.deltaTime);
+
+        playerCamera.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, newLean);
+    }
 }
+    #endregion

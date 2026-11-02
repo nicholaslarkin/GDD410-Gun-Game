@@ -14,15 +14,19 @@ public class ActorStatistics : MonoBehaviour
 
     public ActorData DATA => actorData;
 
-    public int currentHealth;
+    [HideInInspector] public int currentHealth;
     public int maxHealth;
 
     //public event Action<int> OnHealthChanged;
 
     protected virtual void Awake()
     {
-        currentHealth = actorData.currentHealth;
-        maxHealth = actorData.maxHealth;
+        //NOTE: Revert to SO later, using inspector setting health for now
+
+        //currentHealth = actorData.currentHealth;
+        //maxHealth = actorData.maxHealth;
+
+        currentHealth = maxHealth;
     }
 
     protected virtual void Update()

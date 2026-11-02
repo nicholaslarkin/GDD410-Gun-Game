@@ -74,9 +74,9 @@ public class UIManager : MonoBehaviour
 
         hpText.text = currentHealth.ToString();
 
-        if (currentHealth >= 100)
+        if (currentHealth >= playerStats.maxHealth)
         {
-            hpText.text = 100.ToString();
+            hpText.text = playerStats.maxHealth.ToString();
         }
         if (currentHealth <= 0)
         {

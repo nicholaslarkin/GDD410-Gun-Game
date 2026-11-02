@@ -32,7 +32,17 @@ public class Player_Statistics : ActorStatistics
             weapon = GetComponent<Player_Weapon>();
     }
 
-    private void Start()
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         uiManager = FindAnyObjectByType<UIManager>();
     }
