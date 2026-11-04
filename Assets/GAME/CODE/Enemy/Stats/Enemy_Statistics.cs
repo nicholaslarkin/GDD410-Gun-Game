@@ -13,6 +13,7 @@ public class Enemy_Statistics : ActorStatistics
 {
     [Header("Enemy-Specifics")]
     protected bool _damageFlashing;
+    private bool _deathSoundPlayed;
 
     [SerializeField] protected Renderer currentMaterial;
     [SerializeField] protected Material idleColor;
@@ -40,6 +41,8 @@ public class Enemy_Statistics : ActorStatistics
 
         base.TakeDamage(amount);
 
+        AudioManager.Instance.PlaySFXMult("Hit_Splatter", 0.7f);
+
         Material lastColor = currentMaterial.material;
         currentMaterial.material = damagedColor;
         _damageFlashing = true;
@@ -62,6 +65,12 @@ public class Enemy_Statistics : ActorStatistics
 
     public override void Death()
     {
+        if (!_deathSoundPlayed)
+        {
+            AudioManager.Instance.PlaySFX("Enemy_Death", 1);
+            _deathSoundPlayed = true;
+        }
+
         currentMaterial.material = deathColor;
         return;
     }

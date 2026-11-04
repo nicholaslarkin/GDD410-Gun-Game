@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +9,7 @@ public class Player_Statistics : ActorStatistics
 
     [SerializeField] private Player_Weapon weapon;
 
-    private UIManager uiManager;
+    public UIManager uiManager;
 
     public Weapon CurrentWeapon => weapon != null
         ? weapon.CurrentWeapon
@@ -16,6 +17,8 @@ public class Player_Statistics : ActorStatistics
 
     protected override void Awake()
     {
+        uiManager = FindAnyObjectByType<UIManager>();
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -44,7 +47,7 @@ public class Player_Statistics : ActorStatistics
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        uiManager = FindAnyObjectByType<UIManager>();
+        //uiManager = FindAnyObjectByType<UIManager>();
     }
 
     //
@@ -93,11 +96,27 @@ public class Player_Statistics : ActorStatistics
         }
     }
 
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+
+        AudioManager.Instance.PlaySFXMult("Player_Hurt", 0.3f);
+        AudioManager.Instance.PlaySFXMult("Hit_Splatter", 0.3f);
+
+        UIManager uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        uiManager.UpdateHealthUI(currentHealth);
+    }
+
+    //SceneLoader stuff only for build...?
     public override void Death()
     {
-        //Destroy(gameObject);
+        SceneLoader sceneLoader = FindAnyObjectByType<SceneLoader>();
+        AudioManager.Instance.PlaySFX("Hit_Big_Splatter", 0.7f);
+        AudioManager.Instance.PlaySFX("Player_Death", 3);
+        StartCoroutine(sceneLoader.BuildLoadSceneUponDeath());
+        Destroy(gameObject);
 
-        currentHealth = 101;
-        SceneManager.LoadScene(3);
+        //currentHealth = 101;
+        //SceneManager.LoadScene(3);
     }
 }

@@ -2,14 +2,37 @@ using UnityEngine;
 
 public class Knife : Melee
 {
-    protected override void Awake()
+    private bool _canShoot = false;
+    private bool _attackCooldownSet = false;
+    private float currentAttackInterval;
+    private float currentDeployInterval; //Hard coded based on animation; change to animation events later
+
+    private void OnEnable()
     {
-        base.Awake();
+        _canShoot = false;
+        _attackCooldownSet = false;
+        currentAttackInterval = weaponData.attackInterval;
+        currentDeployInterval = weaponData.deployInterval;
+
+        AudioManager.Instance.PlaySFX("Knife_Equip", 0.7f);
     }
 
     private void Update()
     {
-        Debug.Log(state);
+        currentDeployInterval -= Time.deltaTime;
+
+        if (_attackCooldownSet)
+            currentAttackInterval -= Time.deltaTime;
+
+        if (currentAttackInterval <= 0f)
+        {
+            _attackCooldownSet = false;
+            currentAttackInterval = weaponData.attackInterval;
+        }
+
+        if (currentDeployInterval <= 0f)
+            _canShoot = true;
+
     }
 
     public override void Initialize(WeaponData data, Player_Inventory playerInventory)
@@ -19,10 +42,19 @@ public class Knife : Melee
 
     public override void Shot()
     {
-        weaponAnim.SetBool("isAttacking", true);
-        weaponAnim.Play("KnifeAttack", 0, 0f);
+        if (!_canShoot)
+            return;
 
-        if (!TryShoot(out RaycastHit hit))
+        if (weaponData.attackInterval >= 0f && _attackCooldownSet)
+            return;
+
+        base.Shot();
+
+        _attackCooldownSet = true;
+        weaponAnim.SetBool("isAttacking", true);
+        AudioManager.Instance.PlaySFX("Knife_Attack", 0.7f);
+
+        /*if (!TryShoot(out RaycastHit hit))
             return;
 
         ActorStatistics target =
@@ -31,25 +63,6 @@ public class Knife : Melee
         if (target != null)
         {
             target.TakeDamage(weaponData.maxDamage);
-        }
+        }*/
     }
-
-    /*public override void Reload()
-    {
-        base.Reload();
-    }
-
-    protected override void UpdateIdle()
-    {
-        if (TryShoot())
-        {
-            state = WeaponState.Firing;
-        }
-    }
-
-    protected override void UpdateFiring()
-    {
-        // Wait for the attack animation to finish.
-        // Then return to Idle.
-    }*/
 }

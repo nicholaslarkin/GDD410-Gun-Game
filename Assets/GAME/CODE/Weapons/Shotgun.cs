@@ -3,9 +3,63 @@ using UnityEngine;
 
 public class Shotgun : NonAutomatic
 {
-    protected override void Awake()
+    private int ammoToLoad;
+    private bool _canShoot = false;
+    private bool _attackCooldownSet = false;
+    private bool _reloadCooldownSet = false;
+    private float currentAttackInterval;
+    private float currentReloadInterval; //Hard coded based on animation; change to animation events later
+    private float currentDeployInterval; //Hard coded based on animation; change to animation events later
+
+    private void OnEnable()
     {
-        base.Awake();
+        _canShoot = false;
+        _attackCooldownSet = false;
+        _reloadCooldownSet = false;
+        currentAttackInterval = weaponData.attackInterval;
+        currentReloadInterval = weaponData.reloadInterval;
+        currentDeployInterval = weaponData.deployInterval;
+
+        AudioManager.Instance.PlaySFX("Shotgun_Pump", 0.7f);
+    }
+
+    private void Update()
+    {
+        currentDeployInterval -= Time.deltaTime;
+
+        if (_attackCooldownSet)
+            currentAttackInterval -= Time.deltaTime;
+
+        if (_reloadCooldownSet)
+            currentReloadInterval -= Time.deltaTime;
+
+        if (currentAttackInterval <= 0f)
+        {
+            _attackCooldownSet = false;
+            currentAttackInterval = weaponData.attackInterval;
+        }
+
+        if (currentReloadInterval <= 0f)
+        {
+            AmmoClip++;
+            uiManager.UpdateWeaponUI(AmmoClip);
+
+            _reloadCooldownSet = false;
+            currentReloadInterval = weaponData.reloadInterval;
+
+            int missingAmmo = weaponData.ammoClip - AmmoClip;
+
+            if (missingAmmo > 0)
+                Reload();
+            else
+            {
+                weaponAnim.SetBool("isReloading", false);
+            }
+        }
+
+        if (currentDeployInterval <= 0f)
+            _canShoot = true;
+
     }
 
     public override void Initialize(WeaponData data, Player_Inventory playerInventory)
@@ -15,14 +69,51 @@ public class Shotgun : NonAutomatic
 
     public override void Shot()
     {
-        if (AmmoClip <= 0)
+        if (!_canShoot)
             return;
+
+        if (_reloadCooldownSet)
+            return;
+
+        if (weaponData.attackInterval >= 0f && _attackCooldownSet)
+            return;
+
+        if (AmmoClip <= 0)
+        {
+            AudioManager.Instance.PlaySFX("Gun_Empty", 0.7f);
+            return;
+        }
 
         base.Shot();
 
+        _attackCooldownSet = true;
         weaponAnim.SetBool("isAttacking", true);
-        weaponAnim.Play("ShotgunFire", 0, 0f);
+        AudioManager.Instance.PlaySFX("Gun_Fire", 0.7f);
         AmmoClip--;
         uiManager.UpdateWeaponUI(AmmoClip);
+    }
+
+    public override void Reload()
+    {
+        if (weaponData == null || !_canShoot)
+            return;
+
+        if (_attackCooldownSet || _reloadCooldownSet)
+            return;
+
+        int missingAmmo = weaponData.ammoClip - AmmoClip;
+
+        if (missingAmmo <= 0)
+            return;
+
+        //this call here may be causing a bug that steals the reserve ammo when swapping during reload
+        ammoToLoad = inventory.ConsumeReserveAmmo(weaponData, 1);
+
+        if (ammoToLoad <= 0)
+            return;
+
+        AudioManager.Instance.PlaySFX("Shotgun_Reload", 0.7f);
+        weaponAnim.SetBool("isReloading", true);
+        _reloadCooldownSet = true;
     }
 }

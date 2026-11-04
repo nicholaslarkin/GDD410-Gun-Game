@@ -23,3 +23,6 @@ MonoBehaviour:
   maxDamage: 28
   maxRange: 40
   hitRadius: 0.8
+  deployInterval: 0.6
+  attackInterval: 0.25
+  reloadInterval: 1

@@ -11,13 +11,6 @@ public enum WeaponTypes
     Shotgun = 2,
 }
 
-public enum WeaponState
-{
-    Idle = 0,
-    Firing = 1,
-    Reloading = 2,
-}
-
 public class Weapon : MonoBehaviour
 {
     [SerializeField] protected WeaponData weaponData;
@@ -29,8 +22,6 @@ public class Weapon : MonoBehaviour
     protected Player_Inventory inventory;
 
     protected UIManager uiManager;
-
-    public WeaponState state { get; protected set; } = WeaponState.Idle;
 
     public WeaponData Data => weaponData;
 
@@ -46,24 +37,6 @@ public class Weapon : MonoBehaviour
         hurtbox = LayerMask.GetMask("Hurtbox");
         raycastPointer = GameObject.Find("RaycastPointer");
     }
-
-    /*private void Update()
-    {
-        switch (state)
-        {
-            case WeaponState.Idle:
-                UpdateIdle();
-                break;
-
-            case WeaponState.Firing:
-                UpdateFiring();
-                break;
-
-            case WeaponState.Reloading:
-                UpdateReloading();
-                break;
-        }
-    }*/
 
     public virtual void Initialize(WeaponData data, Player_Inventory playerInventory)
     {
@@ -100,26 +73,32 @@ public class Weapon : MonoBehaviour
 
         Debug.DrawRay(origin, direction * weaponData.maxRange, Color.red, 3f);
         return false;
+    }
 
-        /*switch (weaponData.weaponType)
+    //NOTE: Fix issue with walls sometimes eating the SphereCast to an enemy
+    /*public virtual bool TryShoot(out RaycastHit hit)
+    {
+        Vector3 origin = raycastPointer.transform.position;
+        Vector3 direction = raycastPointer.transform.forward;
+
+        int layerMask = hurtbox | LayerMask.GetMask("Grounded", "Wall");
+
+        if (Physics.SphereCast(origin, weaponData.hitRadius, direction,
+            out hit, weaponData.maxRange, layerMask))
         {
-            case WeaponTypes.Knife:
-                weaponAnim.SetBool("isAttacking", true);
-                weaponAnim.Play("PistolFire", 0, 0f);
+            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Hurtbox"))
+            {
+                Debug.DrawRay(origin, direction * hit.distance, Color.green, 3f);
                 return true;
+            }
 
-            case WeaponTypes.Pistol:
-                if (AmmoClip <= 0)
-                    return false;
-
-                weaponAnim.SetBool("isAttacking", true);
-                weaponAnim.Play("KnifeAttack", 0, 0f);
-                AmmoClip--;
-                return true;
+            Debug.DrawRay(origin, direction * hit.distance, Color.red, 3f);
+            return false;
         }
 
-        return false;*/
-    }
+        Debug.DrawRay(origin, direction * weaponData.maxRange, Color.red, 3f);
+        return false;
+    }*/
 
     public virtual void Shot()
     {
@@ -156,18 +135,7 @@ public class Weapon : MonoBehaviour
 
     public virtual void Reload()
     {
-        if (weaponData == null || WeaponType == WeaponTypes.Knife)
-            return;
-
-        int missingAmmo = weaponData.ammoClip - AmmoClip;
-        int ammoToLoad = inventory.ConsumeReserveAmmo(weaponData, missingAmmo);
-
-        if (ammoToLoad <= 0 || weaponData.weaponType == WeaponTypes.Knife)
-            return;
-
-        weaponAnim.SetBool("isReloading", true);
-        AmmoClip += ammoToLoad;
-        uiManager.UpdateWeaponUI(AmmoClip);
+        
     }
 
     public void AddReserveAmmo(int amount)
