@@ -220,6 +220,7 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: a392752af892f654682a377d673ce356, type: 2}
   weaponAnim: {fileID: 1374759369286027958}
   AmmoClip: 0
+  test: {fileID: 8300000, guid: e670e309e0766a94d92a6118e5a065af, type: 3}
 --- !u!1 &1516826865200704162
 GameObject:
   m_ObjectHideFlags: 0

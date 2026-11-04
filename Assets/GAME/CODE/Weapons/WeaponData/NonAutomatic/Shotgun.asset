@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1009be1d89fef6489243b3659b1bddf, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: Assembly-CSharp::NonAutomaticData
-  weaponType: 1
+  weaponType: 2
   weaponImage: {fileID: 2800000, guid: ae380b57465add549ad97c5539a00d09, type: 3}
   ammoImage: {fileID: 2800000, guid: cf83c576baf33f7488ecc3fc02a4dea2, type: 3}
   weaponModel: {fileID: 5175277779780216888, guid: b2df6130e42512846a85842a7ceaa6c9, type: 3}
@@ -23,3 +23,6 @@ MonoBehaviour:
   maxDamage: 106
   maxRange: 28
   hitRadius: 1.2
+  deployInterval: 0.7
+  attackInterval: 1.1
+  reloadInterval: 0.5

@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -80,6 +82,10 @@ public class Player_Motor : MonoBehaviour
         }*/
     }
 
+    private void Start()
+    {
+        StartCoroutine(Footsteps());
+    }
 
     private void Update()
     {
@@ -157,6 +163,23 @@ public class Player_Motor : MonoBehaviour
         velocity.x = currentHorizontalVelocity.x;
         velocity.z = currentHorizontalVelocity.z;
     }
+
+    private IEnumerator Footsteps()
+    {
+        while (true)
+        {
+            if (Grounded && (velocity.x != 0f || velocity.z != 0f))
+            {
+                AudioManager.Instance.PlaySFXMult("Footsteps", 0.2f);
+
+                yield return new WaitForSeconds(0.4f);
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    } 
     #endregion
 
     #region JUMP
@@ -168,6 +191,8 @@ public class Player_Motor : MonoBehaviour
             {
                 return;
             }
+
+            AudioManager.Instance.PlaySFXMult("Player_Jump", 0.5f);
 
             currentJumpCount--;
 
@@ -219,6 +244,7 @@ public class Player_Motor : MonoBehaviour
     }
     #endregion
 
+    private float cameraLean;
 
     #region LOOK
     private void Look()
@@ -226,20 +252,15 @@ public class Player_Motor : MonoBehaviour
         if (!input.cursorInputForLook)
             return;
 
-        float mouseX =
-            input.look.x * mouseSensitivity * Time.deltaTime;
-
-        float mouseY =
-            input.look.y * mouseSensitivity * Time.deltaTime;
+        float mouseX = input.look.x * mouseSensitivity * Time.deltaTime;
+        float mouseY = input.look.y * mouseSensitivity * Time.deltaTime;
 
         transform.Rotate(Vector3.up * mouseX);
 
-        // Rotate camera up/down.
         cameraPitch -= mouseY;
-
         cameraPitch = Mathf.Clamp(cameraPitch, -cameraPitchLimit, cameraPitchLimit);
 
-        playerCamera.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
+        playerCamera.localRotation = Quaternion.Euler(cameraPitch, 0f, cameraLean);
     }
     #endregion
 
@@ -272,15 +293,11 @@ public class Player_Motor : MonoBehaviour
         float targetLean = 0f;
 
         if (input.movement.x > 0)
-            targetLean = 75f;
+            targetLean = 2.5f;
         else if (input.movement.x < 0)
-            targetLean = -75f;
+            targetLean = -2.5f;
 
-        Vector3 currentRotation = playerCamera.localEulerAngles;
-
-        float newLean = Mathf.LerpAngle(currentRotation.z, targetLean, 2f * Time.deltaTime);
-
-        playerCamera.localRotation = Quaternion.Euler(currentRotation.x, currentRotation.y, newLean);
+        cameraLean = Mathf.MoveTowardsAngle(cameraLean, targetLean, 100f * Time.deltaTime);
     }
 }
     #endregion

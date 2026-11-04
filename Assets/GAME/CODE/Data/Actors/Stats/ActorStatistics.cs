@@ -45,16 +45,7 @@ public class ActorStatistics : MonoBehaviour
     {
         Debug.Log("TakeDamage Ran!");
 
-        //health = Mathf.Clamp(health - amount, 0, maxHealth);
-
         currentHealth = currentHealth - amount;
-
-        //OnHealthChanged?.Invoke(health);
-        if (actorData.name == "PlayerData")
-        {
-            UIManager uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-            uiManager.UpdateHealthUI(currentHealth);
-        }
     }
 
     public virtual void Death()
