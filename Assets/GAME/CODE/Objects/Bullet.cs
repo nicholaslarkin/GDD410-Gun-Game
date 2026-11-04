@@ -1,6 +1,11 @@
 using System.ComponentModel;
 using UnityEngine;
 
+/// <summary>
+/// The object that gets fired when an enemy calls to instantiate a projectile
+/// </summary>
+
+// NOTE: Refactor these properties to be based on what enemy fires them instead of just being set on their own
 public class Bullet : Hitbox
 {
     private Transform target;

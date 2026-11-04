@@ -2,6 +2,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Handles scene transition via build scenes
+/// </summary>
+
+// NOTE: Functionality changes with each build, refactor properly when consistent levels are present
 public enum SceneIndex
 {
     TestLevel = 0,

@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class Melee : Weapon
 {
-    [SerializeField] private LayerMask hurtbox;
-
-    protected virtual void Awake()
+    public override void Initialize(WeaponData data, Player_Inventory playerInventory)
     {
-        hurtbox = LayerMask.GetMask("Hurtbox");
-    }
-
-    public override void Initialize(WeaponData data)
-    {
-        base.Initialize(weaponData);
+        base.Initialize(data, playerInventory);
     }
 }

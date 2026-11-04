@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HealthPickup : Pickup, IInteractable
+public class HealthPickup : Pickup
 {
     public override void PickupItem()
     {

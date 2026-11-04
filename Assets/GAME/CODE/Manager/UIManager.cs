@@ -2,10 +2,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles the main gameplay UI (reads other scripts and runs functions in them to update the UI)
+/// </summary>
+
 [DefaultExecutionOrder(1)]
 public class UIManager : MonoBehaviour
 {
     public Player_Statistics playerStats;
+    public Player_Inventory playerInventory;
     public Player_Weapon currentWeapon;
     public Weapon weaponSlot;
 
@@ -26,6 +31,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         playerStats = GameObject.Find("Player").GetComponent<Player_Statistics>();
+        playerInventory = GameObject.Find("Player").GetComponent<Player_Inventory>();
         currentWeapon = GameObject.Find("Player").GetComponent<Player_Weapon>();
     }
 
@@ -33,7 +39,7 @@ public class UIManager : MonoBehaviour
     {
         UpdateWeaponUI(currentWeapon.CurrentWeapon.AmmoClip);
         UpdateHealthUI(playerStats.currentHealth);
-        UpdateHeartCounters(playerStats.regularHearts, playerStats.gildedHearts);
+        UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
     }
 
     public void UpdateWeaponUI(int ammoClipAmount)
@@ -68,9 +74,9 @@ public class UIManager : MonoBehaviour
 
         hpText.text = currentHealth.ToString();
 
-        if (currentHealth >= 100)
+        if (currentHealth >= playerStats.maxHealth)
         {
-            hpText.text = 100.ToString();
+            hpText.text = playerStats.maxHealth.ToString();
         }
         if (currentHealth <= 0)
         {

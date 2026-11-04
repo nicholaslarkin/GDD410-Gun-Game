@@ -8,9 +8,6 @@ public class Player_Statistics : ActorStatistics
 
     [SerializeField] private Player_Weapon weapon;
 
-    public int regularHearts;
-    public int gildedHearts;
-
     private UIManager uiManager;
 
     public Weapon CurrentWeapon => weapon != null
@@ -35,100 +32,27 @@ public class Player_Statistics : ActorStatistics
             weapon = GetComponent<Player_Weapon>();
     }
 
-    private void Start()
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         uiManager = FindAnyObjectByType<UIManager>();
-
-        UpdateWeaponUI();
     }
 
-    public virtual void Shot(bool hurtboxDetected, RaycastHit hit)
-    {
-        Weapon current = CurrentWeapon;
-
-        if (current == null || !current.TryShoot())
-        {
-            UpdateWeaponUI();
-            return;
-        }
-
-        if (hurtboxDetected)
-        {
-            WeaponData data = current.Data;
-
-            float maxDistance = Mathf.Max(data.maxRange, 0.001f);
-            float distancePercent = Mathf.Clamp01(
-                hit.distance / maxDistance
-            );
-
-            float falloff = Mathf.Pow(distancePercent, 2f);
-
-            int damageCalc = Mathf.RoundToInt(
-                Mathf.Lerp(
-                    data.maxDamage,
-                    data.minDamage,
-                    falloff
-                )
-            );
-
-            if (damageCalc > 0)
-            {
-                ActorStatistics target =
-                    hit.collider.GetComponentInParent<ActorStatistics>();
-
-                if (target != null)
-                {
-                    target.TakeDamage(damageCalc);
-
-                    Debug.Log(
-                        $"{damageCalc} damage dealt at {hit.distance:F1} units."
-                    );
-                }
-            }
-        }
-
-        UpdateWeaponUI();
-    }
-
-    public void Reload()
-    {
-        Weapon current = CurrentWeapon;
-
-        if (current == null)
-            return;
-
-        current.Reload();
-
-        UpdateWeaponUI();
-    }
-
-    public void UpdateWeaponUI()
-    {
-        if (uiManager == null)
-            uiManager = FindAnyObjectByType<UIManager>();
-
-        if (uiManager == null)
-            return;
-
-        Weapon current = CurrentWeapon;
-
-        if (current != null)
-            uiManager.UpdateWeaponUI(current.AmmoClip);
-    }
-
-    public void Hearts()
-    {
-        if (uiManager == null)
-            uiManager = FindAnyObjectByType<UIManager>();
-
-        if (uiManager != null)
-            uiManager.UpdateHeartCounters(regularHearts, gildedHearts);
-    }
-
+    //
+    // TO DO: Find some way to truncate this function into another script; doesn't really belong here...?
+    //
     public void AddEffectFromPickup(int pickupArgument, int quantityAmount)
     {
-        if (uiManager == null)
-            uiManager = FindAnyObjectByType<UIManager>();
+        Player_Inventory playerInventory = GetComponent<Player_Inventory>();
 
         switch (pickupArgument)
         {
@@ -147,7 +71,7 @@ public class Player_Statistics : ActorStatistics
                 if (current != null)
                     current.AddReserveAmmo(quantityAmount);
 
-                UpdateWeaponUI();
+                uiManager.UpdateWeaponUI(quantityAmount);
                 break;
 
             // Misc
@@ -157,14 +81,14 @@ public class Player_Statistics : ActorStatistics
 
             // Regular Hearts
             case 4:
-                regularHearts += quantityAmount;
-                Hearts();
+                playerInventory.regularHearts += quantityAmount;
+                uiManager.UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
                 break;
 
             // Gilded Hearts
             case 5:
-                gildedHearts += quantityAmount;
-                Hearts();
+                playerInventory.gildedHearts += quantityAmount;
+                uiManager.UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
                 break;
         }
     }
@@ -174,6 +98,6 @@ public class Player_Statistics : ActorStatistics
         //Destroy(gameObject);
 
         currentHealth = 101;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
 }

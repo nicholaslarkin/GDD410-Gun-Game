@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Scene specific player teleport that spawns the player at the object's location
+/// Required since player(DoNotDestroyOnLoad) maintains the same coordinate through scene transitions
+/// </summary>
+
 public class PlayerStartingPos : MonoBehaviour
 {
     private GameObject player;

@@ -1,6 +1,14 @@
-using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
 
+/// <summary>
+/// Holds base enemy attributes that all enemies use (derived classes use specific enemy behavior)
+/// </summary>
+
+//
+// TO DO: Transfer generic state changes into here outside of Enemy_Grunt to Enemy_Statistics
+//
 public class Enemy_Statistics : ActorStatistics
 {
     [Header("Enemy-Specifics")]
@@ -13,13 +21,6 @@ public class Enemy_Statistics : ActorStatistics
     [SerializeField] protected Material damagedColor;
     [SerializeField] protected Material deathColor;
     [SerializeField] protected Transform playerPos;
-    [SerializeField] protected Transform bulletFirePoint;
-    [SerializeField] protected GameObject bulletObj;
-    [SerializeField] protected float fireRateMin;
-    [SerializeField] protected float fireRateMax;
-    [SerializeField] protected float aggroDistance = 20f;
-    protected float fireRate;
-    public float timeLeftToFire;
 
     private void Start()
     {
@@ -54,12 +55,9 @@ public class Enemy_Statistics : ActorStatistics
         currentMaterial.material = lastColor;
     }
 
-    protected void ShootingPlayer()
+    protected virtual void ShootingPlayer()
     {
-        GameObject bullet = Instantiate(bulletObj, bulletFirePoint.position, bulletFirePoint.rotation);
 
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-        bulletScript.SetTarget(playerPos);
     }
 
     public override void Death()

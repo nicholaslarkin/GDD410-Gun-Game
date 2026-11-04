@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyPickup : Pickup, IInteractable
+public class EnemyPickup : Pickup
 {
     private Enemy_Grunt enemyGrunt; //Refactor later to work with other enemies
     private float maxTimeLeftToDie;

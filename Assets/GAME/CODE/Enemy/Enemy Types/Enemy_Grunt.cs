@@ -1,6 +1,13 @@
 using UnityEngine;
 
-public enum States
+/// <summary>
+/// Enemy_Grunt specific code derived from the base Enemy_Statistics
+/// </summary>
+
+//
+// TO DO: Transfer generic state changes into here outside of Enemy_Grunt to Enemy_Statistics
+//
+public enum GruntStates
 {
     Wandering = 0,
     Alert = 1,
@@ -11,10 +18,18 @@ public enum States
 
 public class Enemy_Grunt : Enemy_Statistics
 {
-    public States state { get; private set; } = States.Wandering;
+    public GruntStates state { get; private set; } = GruntStates.Wandering;
 
     private Rigidbody rb;
     public GameObject enemyPickupObj;
+
+    [SerializeField] protected Transform bulletFirePoint;
+    [SerializeField] protected GameObject bulletObj;
+    [SerializeField] protected float fireRateMin;
+    [SerializeField] protected float fireRateMax;
+    [SerializeField] protected float aggroDistance = 20f;
+    protected float fireRate;
+    public float timeLeftToFire;
 
     public float wanderSpeed;
 
@@ -45,29 +60,30 @@ public class Enemy_Grunt : Enemy_Statistics
 
         if (currentHealth <= 0)
         {
-            if (state != States.Death)
-                SetState(States.Death);
+            if (state != GruntStates.Death)
+                SetState(GruntStates.Death);
             UpdateDeath();
             return;
         }
 
         switch (state)
         {
-            case States.Wandering:
+            case GruntStates.Wandering:
                 UpdateWandering();
                 break;
 
-            case States.Alert:
+            case GruntStates.Alert:
                 UpdateAlert();
                 break;
 
-            case States.Aggressive:
+            case GruntStates.Aggressive:
                 UpdateAggressive();
                 break;
         }
     }
 
-    private void SetState(States newState)
+    #region STATES
+    private void SetState(GruntStates newState)
     {
         if (state == newState)
             return;
@@ -76,24 +92,24 @@ public class Enemy_Grunt : Enemy_Statistics
 
         switch (state)
         {
-            case States.Wandering:
+            case GruntStates.Wandering:
                 Debug.Log("Entered Wandering");
                 currentMaterial.material = idleColor;
                 break;
 
-            case States.Alert:
+            case GruntStates.Alert:
                 Debug.Log("Entered Alert");
                 currentMaterial.material = spottedColor;
                 timeLeftToFire = 0f;
                 fireRate = Random.Range(fireRateMin, fireRateMax);
                 break;
 
-            case States.Aggressive:
+            case GruntStates.Aggressive:
                 Debug.Log("Entered Aggressive");
                 currentMaterial.material = aggressiveColor;
                 break;
 
-            case States.Death:
+            case GruntStates.Death:
                 Debug.Log("Entered Death");
                 currentMaterial.material = deathColor;
                 break;
@@ -123,7 +139,7 @@ public class Enemy_Grunt : Enemy_Statistics
         if (distance <= aggroDistance)
         {
             rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-            SetState(States.Alert);
+            SetState(GruntStates.Alert);
         }
     }
 
@@ -134,14 +150,14 @@ public class Enemy_Grunt : Enemy_Statistics
 
     private void EnterAggressive() //Invokes cannot take arguments, so need to use this YUCKY enter solution instead
     {
-        SetState(States.Aggressive);
+        SetState(GruntStates.Aggressive);
     }
 
     private void UpdateAggressive()
     {
         if (distance > aggroDistance)
         {
-            SetState(States.Wandering);
+            SetState(GruntStates.Wandering);
             return;
         }
 
@@ -161,6 +177,15 @@ public class Enemy_Grunt : Enemy_Statistics
 
         enemyPickupObj.SetActive(true);
         timeLeftToDie -= Time.deltaTime;
+    }
+    #endregion
+
+    protected override void ShootingPlayer()
+    {
+        GameObject bullet = Instantiate(bulletObj, bulletFirePoint.position, bulletFirePoint.rotation);
+
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.SetTarget(playerPos);
     }
 
     //

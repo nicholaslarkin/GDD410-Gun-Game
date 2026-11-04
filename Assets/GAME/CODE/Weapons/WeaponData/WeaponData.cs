@@ -11,6 +11,8 @@ public class WeaponData : ScriptableObject
 
     public GameObject weaponModel;
 
+    public float reloadTime;
+
     public int ammoClip;
     public int ammoReserve;
 
@@ -18,4 +20,6 @@ public class WeaponData : ScriptableObject
     public int maxDamage;
 
     public float maxRange = 24f;
+
+    public float hitRadius;
 }
