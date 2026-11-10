@@ -204,11 +204,12 @@ public class Player_Motor : MonoBehaviour
     #region SHOOTING
     private void Shooting()
     {
-        if (input.shootPressed)
-        {
-            Weapon currentWeapon = playerWeapon.CurrentWeapon;
+        Weapon currentWeapon = playerWeapon.CurrentWeapon;
+
+        if (input.shootPressed && currentWeapon.WeaponType != WeaponTypes.AssaultRifle)
             currentWeapon.Shot();
-        }
+        else if (input.shoot && currentWeapon.WeaponType == WeaponTypes.AssaultRifle)
+            currentWeapon.Shot();
     }
 
     private void Reloading()

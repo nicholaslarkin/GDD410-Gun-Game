@@ -9,6 +9,7 @@ public enum WeaponTypes
     Knife = 0,
     Pistol = 1,
     Shotgun = 2,
+    AssaultRifle = 3,
 }
 
 public class Weapon : MonoBehaviour

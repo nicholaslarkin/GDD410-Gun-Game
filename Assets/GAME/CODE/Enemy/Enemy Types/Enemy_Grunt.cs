@@ -118,7 +118,7 @@ public class Enemy_Grunt : Enemy_Statistics
 
     private void UpdateWandering()
     {
-        timeLeftToUpdateWander -= Time.deltaTime;
+        timeLeftToUpdateWander -= Time.fixedDeltaTime;
 
         Vector3 movement = transform.forward * wanderSpeed;
 
