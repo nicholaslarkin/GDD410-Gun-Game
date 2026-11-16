@@ -50,7 +50,10 @@ public class Shotgun : NonAutomatic
             int missingAmmo = weaponData.ammoClip - AmmoClip;
 
             if (missingAmmo > 0)
+            {
                 Reload();
+                ammoToLoad = inventory.ConsumeReserveAmmo(weaponData, 1);
+            }
             else
             {
                 weaponAnim.SetBool("isReloading", false);
@@ -104,12 +107,6 @@ public class Shotgun : NonAutomatic
         int missingAmmo = weaponData.ammoClip - AmmoClip;
 
         if (missingAmmo <= 0)
-            return;
-
-        //this call here may be causing a bug that steals the reserve ammo when swapping during reload
-        ammoToLoad = inventory.ConsumeReserveAmmo(weaponData, 1);
-
-        if (ammoToLoad <= 0)
             return;
 
         AudioManager.Instance.PlaySFX("Shotgun_Reload", 0.7f);

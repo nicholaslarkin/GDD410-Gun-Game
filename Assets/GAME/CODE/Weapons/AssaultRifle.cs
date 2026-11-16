@@ -41,6 +41,9 @@ public class AssaultRifle : Automatic
 
         if (currentReloadInterval <= 0f)
         {
+            int missingAmmo = weaponData.ammoClip - AmmoClip;
+            ammoToLoad = inventory.ConsumeReserveAmmo(weaponData, missingAmmo);
+
             AmmoClip += ammoToLoad;
             uiManager.UpdateWeaponUI(AmmoClip);
 
@@ -91,16 +94,6 @@ public class AssaultRifle : Automatic
             return;
 
         if (_attackCooldownSet || _reloadCooldownSet)
-            return;
-
-        int missingAmmo = weaponData.ammoClip - AmmoClip;
-
-        if (missingAmmo <= 0)
-            return;
-
-        ammoToLoad = inventory.ConsumeReserveAmmo(weaponData, missingAmmo);
-
-        if (ammoToLoad <= 0)
             return;
 
         AudioManager.Instance.PlaySFX("Shotgun_Pump", 0.7f);

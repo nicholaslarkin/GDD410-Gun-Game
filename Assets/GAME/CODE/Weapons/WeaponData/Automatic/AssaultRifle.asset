@@ -18,7 +18,7 @@ MonoBehaviour:
   weaponModel: {fileID: 1721155872509631726, guid: bc71c5d9ae54cc143b30e8b346cf16ba, type: 3}
   reloadTime: 124.57
   ammoClip: 40
-  ammoReserve: 520
+  ammoReserve: 1
   minDamage: 1
   maxDamage: 4
   maxRange: 36

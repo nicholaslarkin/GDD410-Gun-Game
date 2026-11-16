@@ -15,6 +15,7 @@ public enum SceneIndex
    CombatPure = 3,
    PlatformingPure = 4,
    PrototypeMenu = 5,
+   TestLevel = 6,
 }
 
 public class SceneLoader : MonoBehaviour

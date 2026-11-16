@@ -137,6 +137,12 @@ public class Player_Input : MonoBehaviour
             weaponSwapValue = 3;
     }
 
+    public void OnWeapon4(InputValue value)
+    {
+        if (value.isPressed)
+            weaponSwapValue = 4;
+    }
+
     public void OnWeaponSwap(InputValue value) 
     { 
         bool pressed = value.isPressed; 
