@@ -16,13 +16,13 @@ MonoBehaviour:
   weaponImage: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
   ammoImage: {fileID: 2800000, guid: 39dce20ca19341245989f14d863432d9, type: 3}
   weaponModel: {fileID: 1721155872509631726, guid: bc71c5d9ae54cc143b30e8b346cf16ba, type: 3}
-  reloadTime: 0
+  reloadTime: 124.57
   ammoClip: 40
   ammoReserve: 520
   minDamage: 1
   maxDamage: 4
   maxRange: 36
   hitRadius: 1.2
-  deployInterval: 0.7
+  deployInterval: 0.73
   attackInterval: 0.1
-  reloadInterval: 1
+  reloadInterval: 1.7

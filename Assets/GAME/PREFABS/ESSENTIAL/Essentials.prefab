@@ -603,9 +603,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1134490294335787678, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: weapons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134490294335787678, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: 'weapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c307cadb5624604469c91ecd9a675bfd, type: 2}
     - target: {fileID: 1680805652097327138, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4607176184520564751, guid: 0d671dae55761e34cb424bdf55e4ecb1, type: 3}
+      propertyPath: mouseSensitivity
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
