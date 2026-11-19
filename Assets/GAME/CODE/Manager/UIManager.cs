@@ -15,10 +15,10 @@ public class UIManager : MonoBehaviour
     public Weapon weaponSlot;
 
     public RawImage weaponImage;
-    //public RawImage ammoClipImageUI;
     public RawImage damageOverlayImage;
 
     public TextMeshProUGUI hpText;
+    public TextMeshProUGUI ammoClipText;
     public TextMeshProUGUI ammoReserveText;
 
     public TextMeshProUGUI regularHeartsText;
@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
 
         //ammoClipImageUI.texture = currentWeapon.CurrentWeapon.Data.ammoImage;
         weaponImage.texture = currentWeapon.CurrentWeapon.Data.weaponImage;
+        ammoClipText.text = currentWeapon.CurrentWeapon.AmmoClip.ToString();
         ammoReserveText.text = currentWeapon.CurrentWeapon.AmmoReserve.ToString();
     }
 

@@ -37,6 +37,9 @@ public class Shotgun : NonAutomatic
         {
             _attackCooldownSet = false;
             currentAttackInterval = weaponData.attackInterval;
+
+            if (AmmoClip <= 0)
+                Reload();
         }
 
         if (currentReloadInterval <= 0f)
@@ -61,7 +64,12 @@ public class Shotgun : NonAutomatic
         }
 
         if (currentDeployInterval <= 0f)
+        {
             _canShoot = true;
+
+            if (AmmoClip <= 0)
+                Reload();
+        }
 
     }
 
@@ -80,12 +88,6 @@ public class Shotgun : NonAutomatic
 
         if (weaponData.attackInterval >= 0f && _attackCooldownSet)
             return;
-
-        if (AmmoClip <= 0)
-        {
-            AudioManager.Instance.PlaySFX("Gun_Empty", 0.7f);
-            return;
-        }
 
         base.Shot();
 

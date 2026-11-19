@@ -37,6 +37,9 @@ public class AssaultRifle : Automatic
         {
             _attackCooldownSet = false;
             currentAttackInterval = weaponData.attackInterval;
+
+            if (AmmoClip <= 0)
+                Reload();
         }
 
         if (currentReloadInterval <= 0f)
@@ -52,7 +55,12 @@ public class AssaultRifle : Automatic
         }
 
         if (currentDeployInterval <= 0f)
+        {
             _canShoot = true;
+
+            if (AmmoClip <= 0)
+                Reload();
+        }
 
     }
 
@@ -72,17 +80,12 @@ public class AssaultRifle : Automatic
         if (weaponData.attackInterval >= 0f && _attackCooldownSet)
             return;
 
-        if (AmmoClip <= 0)
-        {
-            AudioManager.Instance.PlaySFX("Gun_Empty", 0.7f);
-            return;
-        }
-
         base.Shot();
 
         _attackCooldownSet = true;
         AudioManager.Instance.PlaySFX("Gun_Fire", 0.7f);
         weaponAnim.SetBool("isAttacking", true);
+        weaponAnim.SetBool("isReloading", false);
         weaponAnim.Play("PistolFire", 0, 0f);
         AmmoClip--;
         uiManager.UpdateWeaponUI(AmmoClip);
@@ -95,6 +98,11 @@ public class AssaultRifle : Automatic
 
         if (_attackCooldownSet || _reloadCooldownSet)
             return;
+
+        if (AmmoClip == weaponData.ammoClip)
+        {
+            return;
+        }
 
         AudioManager.Instance.PlaySFX("Shotgun_Pump", 0.7f);
         weaponAnim.SetBool("isReloading", true);

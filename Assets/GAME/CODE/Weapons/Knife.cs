@@ -53,16 +53,5 @@ public class Knife : Melee
         _attackCooldownSet = true;
         weaponAnim.SetBool("isAttacking", true);
         AudioManager.Instance.PlaySFX("Knife_Attack", 0.7f);
-
-        /*if (!TryShoot(out RaycastHit hit))
-            return;
-
-        ActorStatistics target =
-            hit.collider.GetComponentInParent<ActorStatistics>();
-
-        if (target != null)
-        {
-            target.TakeDamage(weaponData.maxDamage);
-        }*/
     }
 }

@@ -69,6 +69,7 @@ public class Enemy_Statistics : ActorStatistics
         {
             AudioManager.Instance.PlaySFX("Enemy_Death", 1);
             _deathSoundPlayed = true;
+            Destroy(gameObject);
         }
 
         currentMaterial.material = deathColor;

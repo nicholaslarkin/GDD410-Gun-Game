@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/PrototypeMenu.unity
     guid: af8e29aee48fd8b44959c7fee96cba28
   - enabled: 1
-    path: Assets/Scenes/MVPLevel.unity
-    guid: d5a8250d27438ff43bbcf2167c15078e
-  - enabled: 1
     path: Assets/Scenes/Nov4 Build Levels/Nov4Level.unity
     guid: 6414934130dd6684ca5654f9e0af2a98
   - enabled: 1
@@ -20,8 +17,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Nov4 Build Levels/PlatformingPure.unity
     guid: 34c3d4df0116f7a4b80760c4d6b3ed91
-  - enabled: 1
-    path: Assets/Scenes/TestLevel.unity
-    guid: 99d171276ef175f4a9a6d7ab5efaeb0d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
