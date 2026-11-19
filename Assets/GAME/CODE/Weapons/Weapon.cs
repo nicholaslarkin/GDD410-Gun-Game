@@ -9,6 +9,7 @@ public enum WeaponTypes
     Knife = 0,
     Pistol = 1,
     Shotgun = 2,
+    AssaultRifle = 3,
 }
 
 public class Weapon : MonoBehaviour
@@ -60,7 +61,7 @@ public class Weapon : MonoBehaviour
         AmmoClip = weaponData.ammoClip;
     }
 
-    public virtual bool TryShoot(out RaycastHit hit)
+    /*public virtual bool TryShoot(out RaycastHit hit)
     {
         Vector3 origin = raycastPointer.transform.position;
         Vector3 direction = raycastPointer.transform.forward;
@@ -73,32 +74,54 @@ public class Weapon : MonoBehaviour
 
         Debug.DrawRay(origin, direction * weaponData.maxRange, Color.red, 3f);
         return false;
-    }
+    }*/
 
     //NOTE: Fix issue with walls sometimes eating the SphereCast to an enemy
-    /*public virtual bool TryShoot(out RaycastHit hit)
+    public virtual bool TryShoot(out RaycastHit hit)
     {
         Vector3 origin = raycastPointer.transform.position;
         Vector3 direction = raycastPointer.transform.forward;
 
         int layerMask = hurtbox | LayerMask.GetMask("Grounded", "Wall");
 
-        if (Physics.SphereCast(origin, weaponData.hitRadius, direction,
-            out hit, weaponData.maxRange, layerMask))
-        {
-            if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Hurtbox"))
-            {
-                Debug.DrawRay(origin, direction * hit.distance, Color.green, 3f);
-                return true;
-            }
+        bool hitEnemy = Physics.SphereCast(origin, weaponData.hitRadius,
+        direction, out RaycastHit enemyHit, weaponData.maxRange, hurtbox);
 
-            Debug.DrawRay(origin, direction * hit.distance, Color.red, 3f);
+        bool hitWall = Physics.Raycast(origin, direction,
+            out RaycastHit wallHit, weaponData.maxRange,
+            LayerMask.GetMask("Wall"));
+
+        bool hitGround = Physics.Raycast(origin, direction,
+            out RaycastHit groundHit, weaponData.maxRange,
+            LayerMask.GetMask("Grounded"));
+
+        //Probably wont work when shooting an enemy above the ground
+        if ((hitEnemy && !hitWall && !hitGround) || (hitEnemy && hitGround && enemyHit.distance < groundHit.distance))
+        {
+            hit = enemyHit;
+            Debug.DrawRay(origin, direction * hit.distance, Color.green, weaponData.maxRange);
+            return true;
+        }
+        else if (hitWall)
+        {
+            hit = wallHit;
+            Debug.DrawRay(origin, direction * hit.distance, Color.red, weaponData.maxRange);
+            return false;
+        }
+        else if (hitGround)
+        {
+            hit = groundHit;
+            Debug.DrawRay(origin, direction * hit.distance, Color.red, weaponData.maxRange);
             return false;
         }
 
-        Debug.DrawRay(origin, direction * weaponData.maxRange, Color.red, 3f);
+        hit = default;
+
+        Debug.DrawRay(origin, direction * (hitWall ? hit.distance : weaponData.maxRange),
+        Color.red, 3f);
+
         return false;
-    }*/
+    }
 
     public virtual void Shot()
     {

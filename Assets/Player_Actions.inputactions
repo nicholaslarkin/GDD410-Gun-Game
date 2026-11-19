@@ -97,6 +97,16 @@
                     "priority": 0
                 },
                 {
+                    "name": "Weapon4",
+                    "type": "PassThrough",
+                    "id": "4ac297ff-a5c3-4298-8dc4-a651c310b257",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
                     "name": "WeaponSwap",
                     "type": "PassThrough",
                     "id": "8b4de43d-ce70-4561-8f27-68add6fe6c74",
@@ -297,6 +307,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0b01d1e2-a417-42f4-a2a7-c3f433b89f75",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Weapon4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1a27d6ad-9fc6-437a-97d2-4bf64f3817e0",
                     "path": "<Keyboard>/1",
                     "interactions": "",
@@ -321,6 +342,17 @@
                     "name": "",
                     "id": "f588889a-7d96-4c18-a005-7e8b397c6580",
                     "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WeaponSwap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "08b28548-bd7c-4c59-b5ac-78e2ed5f3d08",
+                    "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -204,11 +204,12 @@ public class Player_Motor : MonoBehaviour
     #region SHOOTING
     private void Shooting()
     {
-        if (input.shootPressed)
-        {
-            Weapon currentWeapon = playerWeapon.CurrentWeapon;
+        Weapon currentWeapon = playerWeapon.CurrentWeapon;
+
+        if (input.shootPressed && currentWeapon.WeaponType != WeaponTypes.AssaultRifle)
             currentWeapon.Shot();
-        }
+        else if (input.shoot && currentWeapon.WeaponType == WeaponTypes.AssaultRifle)
+            currentWeapon.Shot();
     }
 
     private void Reloading()
@@ -230,15 +231,23 @@ public class Player_Motor : MonoBehaviour
         {
             if (scrollDelta.y > 0) //up
             {
-                playerWeapon.WeaponSwap(input.weaponSwapValue, 1);
+                input.weaponSwapValue = input.weaponSwapValue - 1;
+                if (input.weaponSwapValue <= 0)
+                    input.weaponSwapValue = 1;
+
+                playerWeapon.WeaponSwap(input.weaponSwapValue);
             }
             if (scrollDelta.y < 0) //down
             {
-                playerWeapon.WeaponSwap(input.weaponSwapValue, 2);
+                input.weaponSwapValue = input.weaponSwapValue + 1;
+                if (input.weaponSwapValue >= 5)
+                    input.weaponSwapValue = 4;
+
+                playerWeapon.WeaponSwap(input.weaponSwapValue);
             }
             else
             {
-                playerWeapon.WeaponSwap(input.weaponSwapValue, 0);
+                playerWeapon.WeaponSwap(input.weaponSwapValue);
             }
         }
     }

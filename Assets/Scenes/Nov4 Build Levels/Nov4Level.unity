@@ -11987,10 +11987,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 426480366289456337, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 568517685610361715, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -12030,50 +12026,6 @@ PrefabInstance:
     - target: {fileID: 568517685610361715, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1503749645075637741, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1503749645075637741, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: sceneToGoTo
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2660055945094051772, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2660055945094051772, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 22.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3606245223816563436, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3606245223816563436, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 22.300001
-      objectReference: {fileID: 0}
-    - target: {fileID: 5926010841832847445, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 22.300001
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042563298148546499, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042563298148546499, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.004233737
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042563298148546499, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6042563298148546499, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.4056604
       objectReference: {fileID: 0}
     - target: {fileID: 6639170919929574261, guid: 7c2e6ba5fc981f64a9d03ec4877d37bf, type: 3}
       propertyPath: m_Name

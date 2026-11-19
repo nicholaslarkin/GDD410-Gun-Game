@@ -49,10 +49,7 @@ public class Enemy_Grunt : Enemy_Statistics
     protected override void Update()
     {
         base.Update();
-    }
 
-    private void FixedUpdate()
-    {
         distance = Vector3.Distance(playerPos.position, transform.position);
 
         if (_damageFlashing)
@@ -132,7 +129,7 @@ public class Enemy_Grunt : Enemy_Statistics
             timeLeftToUpdateWander = Random.Range(2f, 8f);
         }
 
-        float newY = Mathf.MoveTowardsAngle(transform.eulerAngles.y, directionChange, 100f * Time.fixedDeltaTime);
+        float newY = Mathf.MoveTowardsAngle(transform.eulerAngles.y, directionChange, 100f * Time.deltaTime);
 
         rb.MoveRotation(Quaternion.Euler(0f, newY, 0f));
 

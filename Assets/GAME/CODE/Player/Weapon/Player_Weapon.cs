@@ -53,7 +53,7 @@ public class Player_Weapon : MonoBehaviour
 
     private void Start()
     {
-        WeaponSwap(3,0);
+        WeaponSwap(1);
     }
 
     public Weapon GetWeapon(WeaponData data)
@@ -64,7 +64,7 @@ public class Player_Weapon : MonoBehaviour
     //
     // TO DO: Finish up scroll wheel implementation
     //
-    public void WeaponSwap(int weaponValue, int scrollWheelType) //UNFINISHED SCROLL WHEEL IMPLEMENTATION
+    public void WeaponSwap(int weaponValue) //UNFINISHED SCROLL WHEEL IMPLEMENTATION
     {
         int index = weaponValue - 1;
 
@@ -76,16 +76,6 @@ public class Player_Weapon : MonoBehaviour
 
         if (CurrentWeapon != null)
             CurrentWeapon.gameObject.SetActive(false);
-
-        if (scrollWheelType == 1)
-        {
-            index = (index - 1 + weaponInstances.Count)
-                % weaponInstances.Count;
-        }
-        else if (scrollWheelType == 2)
-        {
-            index = (index + 1) % weaponInstances.Count;
-        }
 
         CurrentWeapon = weaponInstances[index];
         CurrentWeapon.gameObject.SetActive(true);

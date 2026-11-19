@@ -15,9 +15,10 @@ public class UIManager : MonoBehaviour
     public Weapon weaponSlot;
 
     public RawImage weaponImage;
-    //public RawImage ammoClipImageUI;
+    public RawImage damageOverlayImage;
 
     public TextMeshProUGUI hpText;
+    public TextMeshProUGUI ammoClipText;
     public TextMeshProUGUI ammoReserveText;
 
     public TextMeshProUGUI regularHeartsText;
@@ -40,6 +41,11 @@ public class UIManager : MonoBehaviour
         UpdateWeaponUI(currentWeapon.CurrentWeapon.AmmoClip);
         UpdateHealthUI(playerStats.currentHealth);
         UpdateHeartCounters(playerInventory.regularHearts, playerInventory.gildedHearts);
+    }
+
+    private void Update()
+    {
+        DamageOverlayAlpha(playerStats.currentHealth);
     }
 
     public void UpdateWeaponUI(int ammoClipAmount)
@@ -65,6 +71,7 @@ public class UIManager : MonoBehaviour
 
         //ammoClipImageUI.texture = currentWeapon.CurrentWeapon.Data.ammoImage;
         weaponImage.texture = currentWeapon.CurrentWeapon.Data.weaponImage;
+        ammoClipText.text = currentWeapon.CurrentWeapon.AmmoClip.ToString();
         ammoReserveText.text = currentWeapon.CurrentWeapon.AmmoReserve.ToString();
     }
 
@@ -88,5 +95,18 @@ public class UIManager : MonoBehaviour
     {
         regularHeartsText.text = regHearts.ToString();
         gildedHeartsText.text = gildHearts.ToString();
+    }
+
+    private void DamageOverlayAlpha(int currentHealth)
+    {
+        Color damageOverlayColor = damageOverlayImage.color;
+
+        //Prevent divide by zero error
+        if (currentHealth <= 0)
+            currentHealth = 1;
+
+        damageOverlayColor.a = 1f - (currentHealth / 100f);
+
+        damageOverlayImage.color = damageOverlayColor;
     }
 }
